@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aperçu de ma fiche · placedupermis.fr</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23132a5c'/%3E%3Crect x='6' y='19' width='20' height='7' rx='2' fill='%23c6f432'/%3E%3Ctext x='16' y='15' font-family='system-ui' font-size='12' font-weight='800' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="/pro/assets/style.css">
+<style>
+body{background:var(--bg);min-height:100vh;margin:0}
+
+/* Bandeau aperçu (fixe en haut) */
+.preview-bar{background:linear-gradient(90deg,#8a6100,#c69826);color:#fff;padding:12px 20px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px -4px rgba(0,0,0,.3)}
+.preview-bar .wrap{max-width:960px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between}
+.preview-bar .msg{display:flex;align-items:center;gap:10px;font-weight:650;font-size:.9rem}
+.preview-bar .actions{display:flex;gap:8px;flex-wrap:wrap}
+.preview-bar .actions a,.preview-bar .actions button{background:#fff;color:#8a6100;padding:7px 14px;border-radius:8px;text-decoration:none;font-weight:700;font-size:.82rem;border:none;cursor:pointer;font-family:inherit}
+.preview-bar .actions .publish{background:var(--volt);color:var(--volt-ink)}
+.preview-bar .actions .publish:hover{background:#b5e02b}
+
+/* Contenu fiche (visuellement proche du rendu public) */
+.fiche-wrap{max-width:960px;margin:0 auto;padding:24px 20px}
+
+.hero{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:18px}
+.hero-photo{aspect-ratio:16/9;background:#eef0f4 center/cover no-repeat;position:relative}
+.hero-photo.no-photo{display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.9rem;font-style:italic}
+.hero-body{padding:22px 26px}
+.hero-body h1{margin:0 0 6px;font-size:1.6rem;letter-spacing:-.02em}
+.hero-body .meta{color:var(--ink2);font-size:.9rem;margin:0 0 12px}
+.hero-body .desc{color:var(--ink);font-size:1rem;line-height:1.55;margin:0}
+
+.offer-strip{background:linear-gradient(90deg,#c6f432,#a4d420);color:var(--volt-ink);padding:14px 20px;border-radius:12px;margin-bottom:16px;display:flex;align-items:center;gap:14px}
+.offer-strip .em{font-size:1.8rem;flex-shrink:0}
+.offer-strip .txt b{display:block;font-size:1.05rem}
+.offer-strip .txt p{margin:2px 0 0;font-size:.85rem;opacity:.85}
+.offer-strip .tag{background:rgba(0,0,0,.15);padding:4px 10px;border-radius:6px;font-size:.72rem;font-weight:700;text-transform:uppercase;margin-left:auto;flex-shrink:0}
+
+.grid-2{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+@media(max-width:720px){.grid-2{grid-template-columns:1fr}}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:16px}
+.card h2{margin:0 0 12px;font-size:1.05rem;color:var(--navy)}
+.card h3{margin:14px 0 6px;font-size:.92rem;color:var(--ink)}
+
+/* Contact box (droite) */
+.contact-box .row{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:.9rem}
+.contact-box .row .em{width:22px;text-align:center;color:var(--muted)}
+.contact-box .row a{color:var(--blue);text-decoration:none;word-break:break-all}
+.contact-box .wa-btn{background:#25d366;color:#fff !important;padding:10px 16px;border-radius:10px;text-decoration:none !important;font-weight:700;font-size:.9rem;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px}
+.contact-box .wa-btn:hover{background:#1eba57}
+
+/* Horaires */
+.hours-list{list-style:none;padding:0;margin:0;font-size:.88rem}
+.hours-list li{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dotted var(--line)}
+.hours-list li:last-child{border-bottom:none}
+.hours-list .day{font-weight:600;color:var(--ink)}
+.hours-list .h{color:var(--ink2);text-align:right}
+.hours-list .closed{color:var(--muted);font-style:italic}
+
+/* Spécialités */
+.spec-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.spec-list .spec{background:var(--blue-bg);color:var(--navy);padding:5px 11px;border-radius:999px;font-size:.78rem;font-weight:600}
+
+/* Photos */
+.photos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}
+.photos-grid .p{aspect-ratio:1;background-size:cover;background-position:center;border-radius:8px}
+@media(max-width:640px){.photos-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* Tarifs */
+.prices-table{width:100%;border-collapse:collapse;margin-top:6px;font-size:.9rem}
+.prices-table td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.prices-table td.name{font-weight:650;color:var(--ink)}
+.prices-table td.desc{color:var(--ink2);font-size:.85rem}
+.prices-table td.price{text-align:right;font-weight:800;color:var(--navy);white-space:nowrap}
+.prices-table tr:last-child td{border-bottom:none}
+
+/* Mot du gérant */
+.manager-quote{background:var(--blue-bg);border-left:4px solid var(--blue);padding:16px 20px;border-radius:0 12px 12px 0;margin:10px 0;font-style:italic;color:var(--ink);font-size:.95rem;line-height:1.55}
+.manager-quote .cite{display:block;font-style:normal;font-size:.82rem;color:var(--ink2);margin-top:8px}
+.manager-quote .cite b{color:var(--ink)}
+
+/* Placeholder empty */
+.ph{color:var(--muted);font-style:italic;font-size:.85rem;text-align:center;padding:14px;background:#f8f9fb;border-radius:8px}
+
+.loading{color:var(--muted);text-align:center;padding:60px 20px}
+.spinner{width:32px;height:32px;border:3px solid var(--line);border-top-color:var(--navy);border-radius:50%;animation:spin .8s linear infinite;margin:12px auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hidden{display:none}
+</style>
+</head><body>
+
+<div class="preview-bar">
+<div class="wrap">
+<div class="msg">
+<span style="font-size:1.3rem">👁</span>
+<span><b>Mode aperçu</b> — cette page n'est pas publique tant que vous n'avez pas payé.</span>
+</div>
+<div class="actions">
+<a href="#" id="backBtn">← Retour à l'édition</a>
+<button class="publish" id="publishBtn">Publier ma fiche →</button>
+</div>
+</div>
+</div>
+
+<div class="loading" id="initialLoad">
+<div class="spinner"></div>
+Chargement de l'aperçu…
+</div>
+
+<div class="fiche-wrap hidden" id="ficheWrap">
+
+<!-- Offre commerciale (si renseignée) -->
+<div id="offerStrip"></div>
+
+<!-- Hero : photo principale + nom + description -->
+<div class="hero">
+<div class="hero-photo" id="mainPhoto"></div>
+<div class="hero-body">
+<h1 id="ficheName">–</h1>
+<p class="meta" id="ficheMeta">–</p>
+<p class="desc" id="ficheDesc"></p>
+</div>
+</div>
+
+<div class="grid-2">
+
+<!-- Colonne gauche : contenu -->
+<div>
+
+<div class="card" id="cardLong">
+<h2>À propos de l'auto-école</h2>
+<div id="longDesc"></div>
+<div id="managerQuote"></div>
+</div>
+
+<div class="card" id="cardPrices">
+<h2>💶 Tarifs</h2>
+<div id="pricesArea"></div>
+</div>
+
+<div class="card" id="cardSpecs">
+<h2>🎯 Spécialités & équipements</h2>
+<div class="spec-list" id="specList"></div>
+</div>
+
+<div class="card" id="cardPhotos">
+<h2>📸 Galerie</h2>
+<div class="photos-grid" id="photosGrid"></div>
+</div>
+
+</div>
+
+<!-- Colonne droite : contact + horaires -->
+<div>
+
+<div class="card contact-box">
+<h2>📞 Contact</h2>
+<div id="contactArea"></div>
+</div>
+
+<div class="card">
+<h2>🕐 Horaires</h2>
+<ul class="hours-list" id="hoursList"></ul>
+<p id="hoursNote" style="margin-top:10px;color:var(--ink2);font-size:.82rem;line-height:1.5"></p>
+</div>
+
+</div>
+
+</div>
+</div>
+
+<footer style="max-width:960px;margin:20px auto 0;padding:24px 20px 20px;text-align:center;color:var(--muted);font-size:.78rem">
+<div>Aperçu du brouillon — non indexé, non partageable publiquement.</div>
+</footer>
+
+<script type="module">
+window.addEventListener('error', e => showFatalError(e.error?.message || e.message))
+window.addEventListener('unhandledrejection', e => showFatalError(e.reason?.message || String(e.reason)))
+function showFatalError(msg) {
+  const el = document.getElementById('initialLoad')
+  if (!el) return
+  el.innerHTML = `<div style="max-width:520px;margin:0 auto;color:#a12530;text-align:left;font-family:monospace;padding:14px;background:#fff5f5;border:1px solid #f5c9c9;border-radius:8px;font-size:.85rem">
+    <b>⚠ Erreur au chargement :</b><br>${(msg || 'inconnue').replace(/</g,'&lt;')}<br><br>
+    <a href="/pro/mon-espace/" style="color:#2452e0">← Retour au compte</a>
+  </div>`
+}
+
+import '/pro/assets/pdp-pro.js'
+const { sb, api, requireAuth } = window.pdp
+
+const session = await requireAuth()
+if (!session) throw new Error('redirect')
+
+const ficheId = new URLSearchParams(location.search).get('fiche_id') || new URLSearchParams(location.search).get('id')
+if (!ficheId) { location.replace('/pro/mon-espace/'); throw new Error('no fiche id') }
+
+// Retour édition
+document.getElementById('backBtn').href = `/pro/fiche/?id=${encodeURIComponent(ficheId)}`
+
+// Vérifier rattachement + charger draft + fiche officielle en parallèle
+const [attachRes, draftRes] = await Promise.all([
+  sb.from('account_fiches').select('fiche_id, fiches(id, name, slug, city, postcode, dept, address_line1, categories, flags, stats, contact_email_official, contact_website)').eq('account_id', session.user.id).eq('fiche_id', ficheId).maybeSingle(),
+  sb.from('drafts').select('*').eq('fiche_id', ficheId).maybeSingle(),
+])
+if (attachRes.error) throw new Error(attachRes.error.message)
+if (!attachRes.data) { showFatalError('Cette fiche n\'est pas rattachée à votre compte'); throw new Error('not attached') }
+
+const fiche = attachRes.data.fiches
+const draft = draftRes.data || {}
+
+document.getElementById('initialLoad').classList.add('hidden')
+document.getElementById('ficheWrap').classList.remove('hidden')
+
+function esc(s) { return (s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])) }
+function fmtDate(iso) { if (!iso) return ''; const p = iso.slice(0,10).split('-'); return `${p[2]}/${p[1]}/${p[0]}` }
+
+// Hero
+document.getElementById('ficheName').textContent = fiche.name
+document.getElementById('ficheMeta').textContent = `${fiche.address_line1 || ''} · ${fiche.city || ''} (${fiche.postcode || ''}) · agrément ${fiche.id}`
+const desc = draft.description || ''
+document.getElementById('ficheDesc').textContent = desc || ''
+if (!desc) document.getElementById('ficheDesc').innerHTML = '<span style="color:var(--muted);font-style:italic;font-size:.85rem">Aucune description courte renseignée.</span>'
+
+const mainPhoto = document.getElementById('mainPhoto')
+const photos = draft.photos || []
+if (photos[0]) mainPhoto.style.backgroundImage = `url("${photos[0]}")`
+else { mainPhoto.classList.add('no-photo'); mainPhoto.textContent = 'Ajoutez une photo principale pour illustrer votre fiche' }
+
+// Offre commerciale
+const offer = { title: draft.offer_title, subtitle: draft.offer_subtitle, tag: draft.offer_tag, emoji: draft.offer_emoji, ends_at: draft.offer_ends_at }
+if (offer.title) {
+  document.getElementById('offerStrip').innerHTML = `<div class="offer-strip">
+    <div class="em">${esc(offer.emoji || '🎁')}</div>
+    <div class="txt">
+      <b>${esc(offer.title)}</b>
+      ${offer.subtitle ? `<p>${esc(offer.subtitle)}${offer.ends_at ? ` · jusqu'au ${fmtDate(offer.ends_at)}` : ''}</p>` : ''}
+    </div>
+    ${offer.tag ? `<span class="tag">${esc(offer.tag)}</span>` : ''}
+  </div>`
+}
+
+// Présentation longue + citation
+const long = draft.long_description || ''
+const quote = draft.quote_text || ''
+const mgrName = draft.manager_name || ''
+const mgrRole = draft.manager_role || ''
+if (long || quote) {
+  document.getElementById('longDesc').innerHTML = long
+    ? `<div style="white-space:pre-wrap;color:var(--ink);line-height:1.6;font-size:.95rem">${esc(long)}</div>`
+    : ''
+  document.getElementById('managerQuote').innerHTML = quote
+    ? `<div class="manager-quote">« ${esc(quote)} »${(mgrName || mgrRole) ? `<span class="cite"><b>${esc(mgrName)}</b>${mgrRole ? ` · ${esc(mgrRole)}` : ''}</span>` : ''}</div>`
+    : ''
+} else {
+  document.getElementById('cardLong').classList.add('hidden')
+}
+
+// Tarifs
+const prices = (draft.prices || []).filter(p => (p.name && (p.name+'').trim()) || p.price_eur)
+if (prices.length) {
+  document.getElementById('pricesArea').innerHTML = `<table class="prices-table">
+    ${prices.map(p => `<tr>
+      <td class="name">${esc(p.name || '')}</td>
+      <td class="desc">${esc(p.desc || '')}</td>
+      <td class="price">${p.price_eur ? esc(String(p.price_eur)) + ' €' : ''}</td>
+    </tr>`).join('')}
+  </table>
+  <p style="margin:12px 0 0;font-size:.78rem;color:var(--muted);font-style:italic">Prix indicatifs. Prendre contact pour un devis personnalisé.</p>`
+} else {
+  document.getElementById('cardPrices').classList.add('hidden')
+}
+
+// Spécialités
+const SPEC_LABELS = {
+  permis_b:'🚗 Permis B', bea:'⚙️ Boîte auto', moto_a2:'🏍️ Permis A2', moto_a1:'🏍️ Permis A1',
+  aac:'👦 Conduite accompagnée', cs:'🎓 Conduite supervisée', simulateur:'🖥️ Simulateur',
+  pl:'🚛 Poids lourd', tc:'🚌 Transport en commun', pmr:'♿ Accessibilité PMR',
+  sourd_mal:'👂 Sourd/malentendant', permis_1e:'🎫 Permis à 1 €/jour', cpf:'🏫 CPF accepté',
+  paiement_ech:'💳 Paiement échelonné',
+}
+const specs = draft.specialties || []
+if (specs.length) {
+  document.getElementById('specList').innerHTML = specs.map(s => `<span class="spec">${esc(SPEC_LABELS[s] || s)}</span>`).join('')
+} else {
+  document.getElementById('cardSpecs').classList.add('hidden')
+}
+
+// Photos extras (à partir de la 2e)
+const extras = photos.slice(1)
+if (extras.length) {
+  document.getElementById('photosGrid').innerHTML = extras.map(url => `<div class="p" style="background-image:url('${esc(url)}')"></div>`).join('')
+} else {
+  document.getElementById('cardPhotos').classList.add('hidden')
+}
+
+// Contact
+const phone = draft.contact_phone || ''
+const email = draft.contact_email || fiche.contact_email_official || ''
+const web = draft.contact_website || fiche.contact_website || ''
+const wa = draft.contact_whatsapp || ''
+const waMsg = draft.whatsapp_msg || ''
+const rows = []
+if (phone) rows.push(`<div class="row"><span class="em">📞</span><a href="tel:${esc(phone.replace(/\s/g,''))}">${esc(phone)}</a></div>`)
+if (email) rows.push(`<div class="row"><span class="em">✉️</span><a href="mailto:${esc(email)}">${esc(email)}</a></div>`)
+if (web) rows.push(`<div class="row"><span class="em">🌐</span><a href="${esc(web)}" target="_blank" rel="noopener">${esc(web.replace(/^https?:\/\//,'').replace(/\/$/,''))}</a></div>`)
+document.getElementById('contactArea').innerHTML = rows.length ? rows.join('') : '<p class="ph">Aucun contact renseigné pour l\'instant.</p>'
+if (wa) {
+  const clean = wa.replace(/[^\d+]/g,'')
+  const url = `https://wa.me/${clean.replace(/^\+/,'')}${waMsg ? `?text=${encodeURIComponent(waMsg)}` : ''}`
+  document.getElementById('contactArea').insertAdjacentHTML('beforeend', `<a class="wa-btn" href="${esc(url)}" target="_blank" rel="noopener">💬 Ouvrir WhatsApp</a>`)
+}
+
+// Horaires
+const DAYS = [['mon','Lundi'],['tue','Mardi'],['wed','Mercredi'],['thu','Jeudi'],['fri','Vendredi'],['sat','Samedi'],['sun','Dimanche']]
+const hours = draft.hours || {}
+const anyHours = DAYS.some(([k]) => hours[k])
+if (anyHours) {
+  document.getElementById('hoursList').innerHTML = DAYS.map(([k, label]) => {
+    const v = hours[k]
+    if (v === undefined || v === null) return `<li><span class="day">${label}</span><span class="h closed">Fermé</span></li>`
+    return `<li><span class="day">${label}</span><span class="h">${esc(v)}</span></li>`
+  }).join('')
+} else {
+  document.getElementById('hoursList').innerHTML = '<li class="ph">Horaires pas encore renseignés</li>'
+}
+document.getElementById('hoursNote').textContent = draft.hours_note || ''
+
+// Publier
+async function goPremium() {
+  try {
+    const r = await api('/api/create-checkout-session', { body: { plan: 'annuel', fiche_ids: [fiche.id] } })
+    if (r.url) location.href = r.url
+  } catch (e) { alert('Erreur : ' + e.message) }
+}
+document.getElementById('publishBtn').addEventListener('click', goPremium)
+</script>
+
+</body></html>

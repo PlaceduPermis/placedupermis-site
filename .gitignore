@@ -1,0 +1,34 @@
+# Env
+.env
+.env.local
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Netlify
+.netlify/
+
+# Build output (regénéré par `python3 site/generate.py`)
+site/dist/
+
+# Pipeline intermediaries (regénérables)
+pipeline/output/
+pipeline/cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Éditeurs
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+.idea/
+*.swp

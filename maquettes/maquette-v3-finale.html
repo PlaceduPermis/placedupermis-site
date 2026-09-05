@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MAQUETTE V3 — Auto-écoles à Lyon : classement 2025 | place du permis</title>
+<style>
+:root{
+  --navy:#132a5c; --blue:#2452e0; --blue-bg:#eef2fd; --volt:#c6f432; --volt-ink:#243000;
+  --bg:#f5f6f9; --card:#fff; --ink:#16203a; --ink2:#4c5670; --muted:#8a93a8; --line:#e5e8ef;
+  --ok:#0d7a43; --ok-bg:#e3f4ea; --mid:#9a5b00; --mid-bg:#fdf1dd; --bad:#bb3540; --bad-bg:#fbe9ea;
+}
+*{box-sizing:border-box;margin:0}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;font-size:15px}
+a{color:var(--blue)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 18px}
+/* header */
+.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.top .wrap{display:flex;align-items:center;gap:22px;padding:12px 18px}
+.logo{font-weight:900;font-size:1.15rem;color:var(--navy);text-decoration:none;letter-spacing:-.02em;flex:0 0 auto}
+.logo em{font-style:normal;background:var(--volt);border-radius:6px;padding:1px 6px;margin-left:2px;color:var(--volt-ink)}
+.topsearch{flex:1;display:flex;align-items:center;gap:9px;background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:9px 14px;max-width:440px}
+.topsearch input{border:0;background:none;outline:0;font-size:.9rem;width:100%;color:var(--ink)}
+.top nav{margin-left:auto;display:flex;gap:18px}
+.top nav a{color:var(--ink2);text-decoration:none;font-size:.86rem;font-weight:600}
+.top nav a.pro{color:var(--blue)}
+@media(max-width:760px){.top nav{display:none}.topsearch{max-width:none}}
+/* hero */
+.hero{background:#fff;border-bottom:1px solid var(--line);padding:26px 0 20px}
+.crumbs{font-size:.78rem;color:var(--muted);margin-bottom:10px}.crumbs a{color:var(--muted)}
+h1{font-size:1.65rem;font-weight:850;letter-spacing:-.03em;line-height:1.15}
+h1 em{font-style:normal;color:var(--blue)}
+.sub{color:var(--ink2);margin-top:7px;font-size:.93rem;max-width:640px}
+.kpis{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.kpi{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:9px 14px;font-size:.75rem;color:var(--ink2)}
+.kpi b{display:block;font-size:1.15rem;color:var(--navy);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.kpi b.v{color:var(--blue)}
+/* wizard banner compact */
+.wizb{display:flex;align-items:center;gap:12px;background:linear-gradient(100deg,var(--navy),#1d3f8f);color:#fff;border-radius:14px;padding:13px 18px;margin-top:16px;text-decoration:none;max-width:640px}
+.wizb b{font-size:.93rem}.wizb span{font-size:.78rem;color:#b9c8ef}
+.wizb .go{margin-left:auto;background:var(--volt);color:var(--volt-ink);border-radius:10px;padding:7px 13px;font-weight:800;font-size:.8rem;white-space:nowrap}
+/* filtres */
+.filters{display:flex;gap:8px;align-items:center;padding:16px 0 4px;overflow-x:auto;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.chip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:8px 15px;font-size:.83rem;color:var(--ink2);cursor:pointer;white-space:nowrap;font-weight:650}
+.chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.chip .n{opacity:.55;font-weight:500}
+.sortsel{margin-left:auto;border:1.5px solid var(--line);border-radius:10px;padding:8px 11px;font-size:.83rem;color:var(--ink2);background:#fff;flex:0 0 auto}
+/* layout */
+.cols{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:20px;margin-top:14px;align-items:start}
+@media(max-width:920px){.cols{grid-template-columns:1fr}.sidebar{display:none}}
+/* ranking rows */
+.rowcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px 18px;margin-bottom:10px;display:grid;grid-template-columns:40px 64px minmax(0,1fr) auto;gap:14px;align-items:center}
+.rowcard:hover{box-shadow:0 5px 20px rgba(19,42,92,.09)}
+@media(max-width:640px){.rowcard{grid-template-columns:34px 56px minmax(0,1fr)}.actions{grid-column:1/-1;display:flex;gap:8px}.actions .go{flex:1}}
+.rank{font-weight:900;font-size:1.15rem;color:var(--muted);text-align:center;font-variant-numeric:tabular-nums}
+.rank.p1{color:#c99700}.rank.p2{color:#8a93a8}.rank.p3{color:#a5642a}
+.ring{position:relative;width:64px;height:64px}
+.ring svg{transform:rotate(-90deg);display:block}
+.ring .v{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:850;font-size:.92rem;letter-spacing:-.02em;color:var(--ink)}
+.ring .v small{font-size:.5rem;color:var(--muted);font-weight:700;letter-spacing:.05em}
+.name{font-weight:800;font-size:1.02rem;letter-spacing:-.015em}
+.name a{color:var(--ink);text-decoration:none}
+.name a:hover{color:var(--blue)}
+.meta{color:var(--muted);font-size:.79rem;margin-top:3px}
+.meta b{color:var(--ink2);font-weight:650}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.t{font-size:.7rem;font-weight:750;border-radius:7px;padding:3px 8px}
+.t.blue{background:var(--blue-bg);color:var(--blue)}
+.t.up{background:var(--ok-bg);color:var(--ok)}
+.t.volt{background:#f3fbd8;color:#4c6600}
+.t.dim{background:var(--bg);color:var(--ink2);font-weight:600;border:1px solid var(--line)}
+.actions{display:flex;flex-direction:column;gap:7px;min-width:130px}
+.go{background:var(--blue);color:#fff;border:0;border-radius:11px;padding:10px 15px;font-weight:750;font-size:.83rem;cursor:pointer;text-align:center;text-decoration:none;font-family:inherit}
+.go:hover{background:#1c43c2}
+.cmp{background:#fff;border:1.5px solid var(--line);color:var(--ink2);border-radius:11px;padding:9px 15px;font-weight:650;font-size:.8rem;cursor:pointer;font-family:inherit}
+.cmp.sel{background:var(--navy);border-color:var(--navy);color:#fff}
+/* sidebar */
+.side{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:16px}
+.side .mapph{height:230px;background:linear-gradient(135deg,#dfe7f5,#eef2fd);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.85rem}
+.side .pad{padding:16px 18px}
+.side h3{font-size:.95rem;font-weight:800;margin-bottom:10px}
+.fact{display:flex;gap:10px;font-size:.84rem;color:var(--ink2);padding:7px 0;border-top:1px solid var(--line)}
+.fact:first-of-type{border-top:0}
+.fact b{color:var(--navy)}
+/* compare bar */
+.comparebar{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;border-radius:999px;padding:10px 10px 10px 22px;display:none;align-items:center;gap:16px;box-shadow:0 12px 34px rgba(19,42,92,.35);z-index:50;font-size:.88rem}
+.comparebar.on{display:flex}
+.comparebar button{background:var(--volt);color:var(--volt-ink);border:0;border-radius:999px;padding:9px 17px;font-weight:800;cursor:pointer;font-size:.84rem}
+/* sections basses */
+.block{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:18px 0}
+h2{font-size:1.12rem;font-weight:800;letter-spacing:-.02em;margin-bottom:10px}
+details{border-top:1px solid var(--line);padding:10px 0}
+details summary{cursor:pointer;font-weight:650;font-size:.92rem}
+details p{color:var(--ink2);font-size:.88rem;margin-top:8px;max-width:720px}
+.aff{border-left:4px solid var(--ok);display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.aff p{color:var(--ink2);font-size:.88rem;flex:1;min-width:240px}
+.aff a{background:var(--ok);color:#fff;text-decoration:none;border-radius:11px;padding:11px 17px;font-weight:750;font-size:.85rem;white-space:nowrap}
+footer{color:var(--muted);font-size:.75rem;padding:26px 0 40px;max-width:840px}
+.note{position:fixed;top:8px;right:8px;background:var(--bad);color:#fff;font-size:.68rem;font-weight:800;padding:4px 10px;border-radius:7px;z-index:99}
+</style></head><body>
+<div class="note">MAQUETTE V3</div>
+
+<header class="top"><div class="wrap">
+<a class="logo" href="#">place du<em>permis</em></a>
+<div class="topsearch">🔍<input placeholder="Ville, quartier ou auto-école…" value="Lyon"></div>
+<nav><a href="#">Classements</a><a href="#">Statistiques</a><a href="#" class="pro">Espace auto-écoles</a></nav>
+</div></header>
+
+<section class="hero"><div class="wrap">
+<div class="crumbs"><a href="#">Accueil</a> › <a href="#">Rhône (69)</a> › Lyon</div>
+<h1>Auto-écoles à Lyon : le classement <em>2025</em> par taux de réussite</h1>
+<p class="sub">77 écoles comparées sur les résultats officiels au permis B (registre RAFAEL — Sécurité routière) : taux en 1ʳᵉ présentation, volume de candidats et évolution depuis 2018.</p>
+<div class="kpis">
+<div class="kpi"><b class="v">56,3 %</b>réussite moyenne Rhône</div>
+<div class="kpi"><b>61,1 %</b>médiane nationale</div>
+<div class="kpi"><b>+12 pts</b>avec la conduite accompagnée</div>
+<div class="kpi"><b>50</b>écoles classables (≥ 20 candidats)</div>
+</div>
+<a class="wizb" href="#">⚡️ <span><b>Pas envie de tout lire ?</b><br><span>Réponds à 4 questions, on te propose 3 écoles adaptées.</span></span><span class="go">Mon match →</span></a>
+</div></section>
+
+<div class="wrap">
+<div class="filters">
+<button class="chip on" data-f="all">Toutes <span class="n">77</span></button>
+<button class="chip" data-f="aac">Conduite accompagnée <span class="n">31</span></button>
+<button class="chip" data-f="label">Label qualité <span class="n">14</span></button>
+<button class="chip" data-f="up">En progression <span class="n">22</span></button>
+<button class="chip" data-f="moto">Moto <span class="n">12</span></button>
+<select class="sortsel"><option>Trier : meilleur taux</option><option>Plus de candidats</option><option>Meilleure progression</option></select>
+</div>
+
+<div class="cols">
+<div id="list"></div>
+
+<aside class="sidebar">
+<div class="side">
+  <div class="mapph">🗺️ Carte interactive (OSM)</div>
+  <div class="pad">
+    <h3>Le marché lyonnais en bref</h3>
+    <div class="fact">📊<span><b>60,3 %</b> de réussite moyenne en France en 2025 (58,0 % en 2018)</span></div>
+    <div class="fact">👨‍👩‍👧<span>La conduite accompagnée fait gagner <b>+12,2 points</b> en moyenne</span></div>
+    <div class="fact">⚠️<span><b>3 975</b> auto-écoles ont fermé en France depuis 2022 — nos fiches le signalent</span></div>
+    <div class="fact">🎓<span>La plus grosse école de Lyon présente <b>379 candidats</b> par an</span></div>
+  </div>
+</div>
+<div class="side"><div class="pad">
+  <h3>Comment on classe</h3>
+  <p style="font-size:.83rem;color:var(--ink2)">Taux officiel permis B en 1ʳᵉ présentation, période 2025. Seules les écoles avec <b>≥ 20 candidats</b> sont classées — en dessous, le taux n'est pas significatif. <a href="#">Méthodologie</a></p>
+</div></div>
+</aside>
+</div>
+
+<div class="block aff">
+<p><b>Pas encore trouvé ?</b> Le code se prépare en ligne dès maintenant (~20 €), et les heures de conduite se réservent avec un moniteur indépendant, à ton rythme.</p>
+<a href="#" rel="sponsored nofollow">Comparer les offres en ligne →</a>
+</div>
+
+<div class="block">
+<h2>Questions fréquentes — permis à Lyon</h2>
+<details open><summary>Quelle est la meilleure auto-école de Lyon en 2025 ?</summary><p>Au taux officiel de réussite au permis B (1ʳᵉ présentation, ≥ 20 candidats), Saint Jerome (Lyon 7ᵉ) et Grand Test (Lyon 8ᵉ) sont en tête avec 66,7 %. Le volume compte aussi : Brotteaux réussit 62,5 % avec 379 candidats, un résultat statistiquement plus solide.</p></details>
+<details><summary>Le taux de réussite suffit-il pour choisir ?</summary><p>Non — il dépend du profil des élèves présentés. Croisez-le avec le volume, l'évolution sur plusieurs années et le taux en conduite accompagnée. C'est exactement ce que montre chaque fiche.</p></details>
+<details><summary>Combien coûte le permis à Lyon ?</summary><p>1 300 à 1 900 € en formule classique (20 h). La conduite accompagnée réduit la facture et augmente les chances de +12 points en moyenne.</p></details>
+</div>
+
+<footer>Sources : registre national RAFAEL (MI/DSR/SDERPC), période 01/01–31/12/2025, publication février 2026 — Licence Ouverte 2.0 · Géocodage BAN · <a href="#">Méthodologie complète</a></footer>
+</div>
+
+<div class="comparebar" id="cbar"><span id="cbartxt">2 écoles sélectionnées</span><button>Comparer →</button></div>
+
+<script>
+const schools=[
+ {r:1,name:"Saint Jerome",meta:"Lyon 7ᵉ · à 650 m · <b>42 candidats</b> en 2025",tx:66.7,tags:[["blue","Top 31 % national"],["up","↗ +16,7 pts depuis 2022"]],f:{aac:false,label:false,up:true,moto:false}},
+ {r:2,name:"Auto-École Grand Test",meta:"Lyon 8ᵉ · à 3,4 km · <b>45 candidats</b> en 2025",tx:66.7,tags:[["blue","Top 31 % national"],["up","↗ +16,7 pts"]],f:{aac:false,label:false,up:true,moto:false}},
+ {r:3,name:"Auto-École des Battières",meta:"Lyon 5ᵉ · à 4,1 km · <b>140 candidats</b> · AAC : <b>77,8 %</b>",tx:65.0,tags:[["blue","Top 37 % national"],["up","↗ +19,5 pts"],["dim","Volume solide"]],f:{aac:true,label:false,up:true,moto:false}},
+ {r:4,name:"Auto-École des Brotteaux",meta:"Lyon 6ᵉ · à 3,1 km · <b>379 candidats</b> — n°1 en volume · AAC : <b>73,2 %</b>",tx:62.5,tags:[["up","↗ +9,0 pts"],["dim","Moto"],["volt","Taux le plus fiable"]],f:{aac:true,label:false,up:true,moto:true}},
+ {r:5,name:"Transmission",meta:"Lyon 2ᵉ · à 2,6 km · <b>55 candidats</b> en 2025",tx:61.8,tags:[["blue","Top 47 % national"]],f:{aac:false,label:false,up:false,moto:false}},
+ {r:6,name:"Auto-École Indy Light",meta:"Lyon 7ᵉ · à 900 m · <b>54 candidats</b> · conduite accompagnée",tx:61.1,tags:[["up","↗ +15,0 pts"],["dim","Conduite accompagnée"]],f:{aac:true,label:false,up:true,moto:false}},
+ {r:7,name:"Jouini Othman — Turbo",meta:"Lyon 8ᵉ · à 3,0 km · <b>33 candidats</b> en 2025",tx:60.6,tags:[["volt","Label qualité"],["up","↗ +17,8 pts"],["dim","AAC"]],f:{aac:true,label:true,up:true,moto:false}},
+ {r:8,name:"Auto-École Lyon 5ᵉ",meta:"Lyon 5ᵉ · à 2,1 km · <b>301 candidats</b> · AAC : <b>76,6 %</b>",tx:58.1,tags:[["volt","Label qualité"],["dim","Gros volume"]],f:{aac:true,label:true,up:false,moto:false}},
+];
+function ringColor(tx){return tx>=62?'#0d7a43':tx>=50?'#c98a00':'#bb3540'}
+function render(f){
+ document.getElementById('list').innerHTML=schools.filter(s=>f==='all'||s.f[f]).map(s=>{
+  const dash=(s.tx/100*163.4).toFixed(1);
+  return `<article class="rowcard">
+   <div class="rank ${s.r<=3?'p'+s.r:''}">${s.r}</div>
+   <div class="ring">
+     <svg width="64" height="64"><circle cx="32" cy="32" r="26" fill="none" stroke="#edf0f5" stroke-width="7"/>
+     <circle cx="32" cy="32" r="26" fill="none" stroke="${ringColor(s.tx)}" stroke-width="7" stroke-linecap="round" stroke-dasharray="${dash} 163.4"/></svg>
+     <div class="v">${s.tx.toFixed(1).replace('.',',')}<small>% RÉUSSITE</small></div>
+   </div>
+   <div>
+     <div class="name"><a href="#">${s.name}</a></div>
+     <div class="meta">${s.meta}</div>
+     <div class="tags">${s.tags.map(t=>`<span class="t ${t[0]}">${t[1]}</span>`).join('')}</div>
+   </div>
+   <div class="actions">
+     <a class="go" href="#">Voir la fiche →</a>
+     <button class="cmp" onclick="cmp(this)">+ Comparer</button>
+   </div>
+  </article>`}).join('');
+}
+render('all');
+document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
+ document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');render(c.dataset.f);
+}));
+let sel=0;
+function cmp(b){
+ const on=b.classList.toggle('sel'); b.textContent=on?'✓ À comparer':'+ Comparer'; sel+=on?1:-1;
+ document.getElementById('cbar').classList.toggle('on',sel>=2);
+ document.getElementById('cbartxt').textContent=sel+' écoles sélectionnées';
+}
+</script>
+</body></html>

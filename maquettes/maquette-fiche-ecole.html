@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MAQUETTE — SAINT JEROME, auto-école à Lyon : le verdict des chiffres | place du permis</title>
+<style>
+:root{
+  --navy:#16305c; --navy-2:#0f2347; --jaune:#ffce00; --bg:#f6f7f9; --card:#fff;
+  --ink:#182236; --ink-2:#5b6474; --muted:#8a94a3; --line:#e6e9ee;
+  --ok:#0b8a47; --ok-bg:#e7f5ec; --mid:#b45309; --mid-bg:#fdf3e3; --bad:#c2373c; --bad-bg:#fbeaea;
+  --blue:#2a78d6; --grid:#e1e0d9; --axis:#c3c2b7;
+}
+*{box-sizing:border-box;margin:0}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;font-size:15px}
+a{color:var(--navy)}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px}
+.top{background:var(--navy);color:#fff}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
+.logo{font-weight:800;font-size:1.15rem;color:#fff;text-decoration:none}
+.logo em{font-style:normal;background:var(--jaune);color:var(--navy);border-radius:5px;padding:0 5px;margin-left:2px}
+.top nav a{color:#cfd8ea;text-decoration:none;font-size:.85rem;margin-left:18px}
+.crumbs{font-size:.78rem;color:var(--muted);margin:14px 0}
+h1{font-size:1.5rem;letter-spacing:-.02em;line-height:1.2}
+.sub{color:var(--ink-2);font-size:.9rem;margin-top:4px}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 0}
+.b{font-size:.72rem;font-weight:700;border-radius:5px;padding:3px 8px}
+.b.top{background:var(--navy);color:var(--jaune)}
+.b.up{background:var(--ok-bg);color:var(--ok)}
+.b.opt{background:#eef2f8;color:var(--ink-2);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:14px 0}
+h2{font-size:1.12rem;letter-spacing:-.01em;margin-bottom:12px}
+/* verdict */
+.verdict{display:grid;grid-template-columns:150px minmax(0,1fr);gap:20px;align-items:center}
+@media(max-width:560px){.verdict{grid-template-columns:1fr}}
+.gauge{width:150px;height:150px;position:relative}
+.gauge svg{width:100%;height:100%}
+.gauge .val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.gauge .val b{font-size:1.75rem;letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--ink)}
+.gauge .val span{font-size:.66rem;color:var(--muted);text-align:center;line-height:1.2}
+.vlist{list-style:none;display:flex;flex-direction:column;gap:9px}
+.vlist li{position:relative;padding-left:20px;font-size:.93rem;color:var(--ink-2)}
+.vlist li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--jaune);position:absolute;left:0;top:.42em}
+.vlist b{color:var(--ink)}
+/* chart */
+.chart{position:relative}
+.chart svg{width:100%;height:auto;display:block}
+.legend{display:flex;gap:18px;font-size:.78rem;color:var(--ink-2);margin-bottom:8px}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;background:var(--blue);vertical-align:middle;margin-right:6px}
+.legend i.dash{background:repeating-linear-gradient(90deg,var(--axis) 0 4px,transparent 4px 7px)}
+.tip{position:absolute;pointer-events:none;background:var(--navy);color:#fff;font-size:.75rem;border-radius:7px;padding:6px 10px;transform:translate(-50%,-115%);opacity:0;transition:opacity .1s;white-space:nowrap}
+/* table détail */
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line)}
+th{font-size:.7rem;text-transform:uppercase;color:var(--muted);letter-spacing:.05em}
+td b{font-variant-numeric:tabular-nums}
+.pos{color:var(--ok);font-weight:700}.neg{color:var(--bad);font-weight:700}
+/* alternatives */
+.alt{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-top:1px solid var(--line);font-size:.9rem;align-items:center}
+.alt small{color:var(--muted)}
+.altpill{font-weight:800;background:var(--ok-bg);color:var(--ok);border-radius:8px;padding:3px 10px;font-variant-numeric:tabular-nums}
+/* CTA */
+.claim{background:linear-gradient(120deg,var(--navy),var(--navy-2));color:#fff;border:0}
+.claim h2{color:#fff}.claim p{color:#c6d2e8;font-size:.9rem;max-width:600px}
+.claim a.btn{display:inline-block;margin-top:12px;background:var(--jaune);color:var(--navy);font-weight:800;text-decoration:none;border-radius:9px;padding:10px 18px;font-size:.9rem}
+.aff{background:linear-gradient(120deg,#0d5c36,#0b8a47);color:#fff;border:0}
+.aff h2{color:#fff}.aff p{color:#d7eee1;font-size:.9rem;max-width:600px}
+.aff a.btn{display:inline-block;margin-top:12px;background:#fff;color:#0d5c36;font-weight:800;text-decoration:none;border-radius:9px;padding:10px 18px;font-size:.9rem}
+details{border-top:1px solid var(--line);padding:10px 0}
+details summary{cursor:pointer;font-weight:600;font-size:.92rem}
+details p{color:var(--ink-2);font-size:.88rem;margin-top:8px;max-width:700px}
+footer{color:var(--muted);font-size:.75rem;padding:24px 0 40px}
+.note{position:fixed;top:8px;right:8px;background:#c2373c;color:#fff;font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:6px;z-index:99}
+</style></head><body>
+<div class="note">MAQUETTE — fiche école</div>
+
+<header class="top"><div class="wrap">
+<a class="logo" href="#">place du<em>permis</em></a>
+<nav><a href="#">Classements</a><a href="#">Statistiques</a><a href="#">Pro : votre fiche</a></nav>
+</div></header>
+
+<div class="wrap">
+<div class="crumbs"><a href="#">Accueil</a> › <a href="#">Rhône</a> › <a href="#">Lyon</a> › SAINT JEROME</div>
+<h1>SAINT JEROME — que valent vraiment ses résultats au permis ?</h1>
+<p class="sub">Auto-école à Lyon 7ᵉ · 18 rue Saint Jérôme, 69007 · agrément E1406900130 · référencée depuis 2018</p>
+<div class="badges">
+<span class="b top">N°1 à Lyon (2025)</span>
+<span class="b up">↗ +16,7 pts depuis 2022</span>
+<span class="b opt">Top 31 % national</span>
+<span class="b opt">Conduite supervisée</span>
+<span class="b opt">Permis B</span>
+</div>
+
+<div class="card">
+<div class="verdict">
+  <div class="gauge">
+    <svg viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="52" fill="none" stroke="#eef1f5" stroke-width="11"/>
+      <circle cx="60" cy="60" r="52" fill="none" stroke="#0b8a47" stroke-width="11"
+        stroke-linecap="round" stroke-dasharray="217.8 326.7" transform="rotate(-90 60 60)"/>
+    </svg>
+    <div class="val"><b>66,7 %</b><span>réussite permis B<br>1ʳᵉ présentation · 2025</span></div>
+  </div>
+  <ul class="vlist">
+    <li><b>1ʳᵉ sur 50</b> écoles classables à Lyon — et dans le <b>top 31 %</b> des 7 592 écoles classables de France.</li>
+    <li><b>+10,4 points</b> au-dessus de la moyenne du Rhône (56,3 %) et <b>+5,6 points</b> au-dessus de la médiane nationale.</li>
+    <li>En <b>forte progression</b> : 50 % en 2022 → 66,7 % en 2025, avec un volume stable (<b>42 candidats</b>).</li>
+    <li>À lire avec prudence : volume modeste — les écoles à 300+ candidats ont des taux plus robustes statistiquement.</li>
+  </ul>
+</div>
+</div>
+
+<div class="card">
+<h2>Évolution du taux de réussite (permis B)</h2>
+<div class="legend"><span><i></i>SAINT JEROME</span><span><i class="dash"></i>Moyenne Rhône</span></div>
+<div class="chart" id="chart">
+<svg viewBox="0 0 720 240" id="csvg">
+  <!-- grille -->
+  <g stroke="#e1e0d9" stroke-width="1">
+    <line x1="50" y1="30" x2="700" y2="30"/><line x1="50" y1="80" x2="700" y2="80"/>
+    <line x1="50" y1="130" x2="700" y2="130"/><line x1="50" y1="180" x2="700" y2="180"/>
+  </g>
+  <g font-size="11" fill="#898781">
+    <text x="12" y="34">80 %</text><text x="12" y="84">70 %</text><text x="12" y="134">60 %</text><text x="12" y="184">50 %</text>
+    <text x="90" y="225">2018</text><text x="370" y="225">2022</text><text x="650" y="225">2025</text>
+  </g>
+  <line x1="50" y1="205" x2="700" y2="205" stroke="#c3c2b7"/>
+  <!-- moyenne dept (2018: 50.9 -> 2025: 56.3) -->
+  <path d="M100,175.5 L668,148.5" fill="none" stroke="#c3c2b7" stroke-width="2" stroke-dasharray="5 5"/>
+  <text x="672" y="152" font-size="11" fill="#898781">56,3 %</text>
+  <!-- école 56.7 / 50 / 66.7 -->
+  <path d="M100,146.5 L384,180 L668,96.5" fill="none" stroke="#2a78d6" stroke-width="2.5"/>
+  <g fill="#2a78d6" stroke="#fff" stroke-width="2">
+    <circle cx="100" cy="146.5" r="5.5" data-y="2018" data-v="56,7 %"/>
+    <circle cx="384" cy="180" r="5.5" data-y="2022" data-v="50,0 %"/>
+    <circle cx="668" cy="96.5" r="5.5" data-y="2025" data-v="66,7 %"/>
+  </g>
+  <text x="676" y="98" font-size="12" font-weight="700" fill="#182236">66,7 %</text>
+</svg>
+<div class="tip" id="tip"></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Le détail, catégorie par catégorie</h2>
+<table>
+<thead><tr><th>Indicateur</th><th>2018</th><th>2022</th><th>2025</th><th>vs Rhône</th></tr></thead>
+<tbody>
+<tr><td>Permis B — 1ʳᵉ présentation</td><td>56,7 % <small>(67 cand.)</small></td><td>50,0 %</td><td><b>66,7 %</b> <small>(42 cand.)</small></td><td class="pos">+10,4 pts</td></tr>
+<tr><td>— dont conduite accompagnée (AAC)</td><td>—</td><td>—</td><td><b>75,0 %</b></td><td class="pos">+5,5 pts</td></tr>
+<tr><td>— 2ᵉ présentation et suivantes</td><td>—</td><td>39,1 %</td><td><b>70,0 %</b></td><td class="pos">+15,0 pts</td></tr>
+</tbody>
+</table>
+<p style="color:var(--muted);font-size:.78rem;margin-top:10px">« — » : non communiqué par l'administration (effectifs trop faibles). Source : registre RAFAEL, période 01/01–31/12/2025.</p>
+</div>
+
+<div class="card">
+<h2>Si vous hésitez encore, à moins de 15 minutes</h2>
+<div class="alt"><div><b>AUTO-ECOLE DES BATTIERES</b> <small>Lyon 5ᵉ · 2,8 km · 140 candidats · AAC 77,8 %</small></div><span class="altpill">65,0 %</span></div>
+<div class="alt"><div><b>AUTO ECOLE DES BROTTEAUX</b> <small>Lyon 6ᵉ · 3,1 km · le plus gros volume de Lyon (379 candidats)</small></div><span class="altpill">62,5 %</span></div>
+<div class="alt"><div><b>AUTO-ECOLE INDY LIGHT</b> <small>Lyon 7ᵉ · 0,9 km · conduite accompagnée · ↗ +15 pts</small></div><span class="altpill">61,1 %</span></div>
+</div>
+
+<div class="card claim">
+<h2>Vous êtes le gérant de SAINT JEROME ?</h2>
+<p>9 300 personnes ont consulté les fiches lyonnaises le mois dernier. Complétez la vôtre gratuitement — tarifs, horaires, photos, lien d'inscription — et répondez aux questions des candidats. Les données officielles restent verrouillées.</p>
+<a class="btn" href="#">Revendiquer ma fiche →</a>
+</div>
+
+<div class="card aff">
+<h2>En attendant de vous décider</h2>
+<p>Le code se prépare en ligne dès maintenant (~20 €), sans attendre l'inscription en auto-école — et l'examen se réserve en 5 minutes.</p>
+<a class="btn" href="#" rel="sponsored nofollow">Commencer le code en ligne →</a>
+</div>
+
+<div class="card">
+<h2>Questions fréquentes</h2>
+<details open><summary>SAINT JEROME est-elle une bonne auto-école ?</summary><p>Selon les données officielles 2025, oui pour le permis B : 66,7 % de réussite en 1ʳᵉ présentation, 1ʳᵉ des 50 écoles classables de Lyon, +10,4 points au-dessus de la moyenne du Rhône, en progression de +16,7 points depuis 2022. Nuance : 42 candidats présentés, un volume modeste qui rend le taux plus variable d'une année sur l'autre.</p></details>
+<details><summary>Pourquoi le taux 2022 était-il plus bas (50 %) ?</summary><p>Les taux varient naturellement d'un millésime à l'autre, surtout à petit volume. La trajectoire 2018 → 2025 (56,7 % → 66,7 %) et le taux en 2ᵉ présentation (70 %) suggèrent une amélioration réelle plutôt qu'un accident statistique.</p></details>
+<details><summary>Ces chiffres sont-ils officiels ?</summary><p>Oui — ils proviennent du registre national RAFAEL (ministère de l'Intérieur / Sécurité routière), période du 1ᵉʳ janvier au 31 décembre 2025, publiés en février 2026 sous Licence Ouverte. Nous n'y modifions rien ; les gérants peuvent uniquement compléter les infos commerciales.</p></details>
+</div>
+
+<footer>Sources : registre national RAFAEL (MI/DSR/SDERPC) via la Carte officielle des auto-écoles — Licence Ouverte 2.0 · Géocodage BAN · <a href="#">Méthodologie</a> · Le taux se lit avec le volume de candidats et ne résume pas la qualité pédagogique.</footer>
+</div>
+
+<script>
+const tip=document.getElementById('tip'), svg=document.getElementById('csvg');
+svg.querySelectorAll('circle[data-v]').forEach(c=>{
+  c.addEventListener('mouseenter',()=>{
+    const r=c.getBoundingClientRect(), p=document.getElementById('chart').getBoundingClientRect();
+    tip.style.left=(r.left-p.left+r.width/2)+'px'; tip.style.top=(r.top-p.top)+'px';
+    tip.textContent=c.dataset.y+' : '+c.dataset.v+' de réussite'; tip.style.opacity=1;
+  });
+  c.addEventListener('mouseleave',()=>tip.style.opacity=0);
+});
+</script>
+</body></html>

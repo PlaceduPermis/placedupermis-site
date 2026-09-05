@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mon compte · placedupermis.fr</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23132a5c'/%3E%3Crect x='6' y='19' width='20' height='7' rx='2' fill='%23c6f432'/%3E%3Ctext x='16' y='15' font-family='system-ui' font-size='12' font-weight='800' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/pro/assets/style.css">
+<style>
+body{background:var(--bg);min-height:100vh}
+.top{background:var(--navy);color:#fff;padding:14px 0}
+.top .wrap{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:0 20px;max-width:960px;margin:0 auto}
+.top .logo{color:#fff;font-weight:900;font-size:1.1rem;text-decoration:none;letter-spacing:-.02em}
+.top .logo em{font-style:normal;background:var(--volt);border-radius:6px;padding:1px 6px;margin-left:2px;color:var(--volt-ink)}
+.top .userbar{display:flex;align-items:center;gap:14px;font-size:.85rem;color:#c9d1e5}
+.top .userbar b{color:#fff}
+.top .userbar button{background:transparent;border:1px solid rgba(255,255,255,.2);color:#fff;padding:6px 12px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.82rem}
+.top .userbar button:hover{background:rgba(255,255,255,.08)}
+
+.page-title{background:var(--navy);color:#fff;padding:0 0 24px}
+.page-title .wrap{padding:0 20px;max-width:960px;margin:0 auto}
+.page-title h1{margin:0;color:#fff;font-size:1.6rem;letter-spacing:-.02em}
+.page-title .sub{color:#c9d1e5;font-size:.9rem;margin:6px 0 0}
+
+.main{max-width:960px;margin:20px auto;padding:0 20px}
+
+.loading{color:var(--muted);text-align:center;padding:60px 20px;background:#fff;border:1px solid var(--line);border-radius:14px}
+.spinner{width:32px;height:32px;border:3px solid var(--line);border-top-color:var(--navy);border-radius:50%;animation:spin .8s linear infinite;margin:12px auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.section-h{font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:24px 4px 10px;font-weight:700}
+
+/* Offre commerciale */
+.offer-card{background:linear-gradient(135deg,#fff8d8,#fceb9a);border:1.5px solid #f0dc7a;border-radius:16px;padding:20px 24px;display:flex;gap:18px;align-items:center;margin-bottom:8px;overflow:hidden;position:relative}
+.offer-card .oc-icon{font-size:2.2rem;flex-shrink:0}
+.offer-card .oc-body{flex:1}
+.offer-card .oc-body h3{margin:0;font-size:1.05rem;color:#8a6100}
+.offer-card .oc-body p{margin:4px 0 0;color:var(--ink2);font-size:.87rem}
+.offer-card .oc-body .stat{color:#8a6100;font-weight:700}
+.offer-card.standard{background:linear-gradient(135deg,#eef0f4,#dbe4fa);border-color:var(--blue-bg)}
+.offer-card.standard .oc-body h3{color:var(--navy)}
+
+/* Fiche card */
+.fiche-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:12px;display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
+.fiche-card .fc-body{flex:1;min-width:220px}
+.fiche-card .fc-name{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.fiche-card .fc-name h2{margin:0;font-size:1.1rem}
+.fiche-card .fc-meta{color:var(--muted);font-size:.83rem;margin:4px 0 0}
+.fiche-card .fc-meta code{background:#f5f6f9;padding:1px 6px;border-radius:4px;font-size:.9em;color:var(--ink2)}
+.fiche-card .fc-progress{margin-top:12px;font-size:.82rem;color:var(--ink2)}
+.fiche-card .fc-progress .bar{background:#eef0f4;height:6px;border-radius:3px;overflow:hidden;margin-top:5px}
+.fiche-card .fc-progress .bar-fill{height:100%;background:var(--navy);transition:width .3s;border-radius:3px}
+.fiche-card.published .fc-progress .bar-fill{background:#0d7a43}
+.fiche-card .fc-actions{display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0}
+.fiche-card .fc-actions a,.fiche-card .fc-actions button{padding:10px 16px;border-radius:10px;font-weight:650;font-size:.85rem;text-decoration:none;cursor:pointer;font-family:inherit;border:1.5px solid var(--line);background:#fff;color:var(--ink)}
+.fiche-card .fc-actions a:hover,.fiche-card .fc-actions button:hover{border-color:var(--navy);background:var(--blue-bg)}
+.fiche-card .fc-actions a.primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+.fiche-card .fc-actions a.primary:hover{background:#1e3d84}
+
+.plan-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:999px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.plan-pill.free{background:#eef0f4;color:var(--ink2)}
+.plan-pill.premium{background:#e6f5e6;color:#0d7a43}
+.plan-pill.premium::before{content:"●";color:#0d7a43}
+
+.sub-info{color:var(--muted);font-size:.82rem;margin-top:6px}
+.sub-info b{color:var(--ink2)}
+
+/* Attach card */
+.attach-card{background:#fff;border:1.5px dashed var(--line);border-radius:14px;padding:22px;text-align:center;margin-bottom:12px}
+.attach-card h3{margin:0 0 6px;font-size:1rem}
+.attach-card p{color:var(--ink2);font-size:.85rem;margin:0 0 14px}
+.attach-card .btn{background:var(--navy);color:#fff;border:none;padding:11px 20px;border-radius:10px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.88rem;text-decoration:none;display:inline-block}
+.attach-card .btn:hover{background:#1e3d84}
+.search-inline{max-width:520px;margin:0 auto;display:flex;gap:8px}
+.search-inline input{flex:1;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;font-family:inherit;font-size:.9rem}
+.search-inline input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-bg)}
+.results{max-width:520px;margin:12px auto 0}
+.result-item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;margin:6px 0;cursor:pointer;background:#fff;transition:all .1s;text-align:left}
+.result-item:hover{border-color:var(--navy);background:var(--blue-bg)}
+.result-item .body b{display:block;font-size:.9rem;color:var(--ink)}
+.result-item .body small{color:var(--muted);font-size:.78rem}
+.result-item .attach{background:var(--volt);color:var(--volt-ink);border:none;padding:7px 12px;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.78rem;flex-shrink:0}
+
+/* Petits blocs utiles */
+.util-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+@media(max-width:640px){.util-grid{grid-template-columns:1fr}}
+.util-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.util-card h4{margin:0 0 6px;font-size:.92rem;display:flex;align-items:center;gap:8px}
+.util-card p{color:var(--ink2);font-size:.83rem;margin:0}
+.util-card a{color:var(--blue);text-decoration:none;font-weight:650;font-size:.83rem}
+.util-card a:hover{text-decoration:underline}
+.util-card .stat-big{font-size:1.6rem;font-weight:800;color:var(--navy);letter-spacing:-.02em;margin:6px 0 2px}
+
+.hidden{display:none}
+</style>
+</head><body>
+
+<header class="top"><div class="wrap">
+<a class="logo" href="/">place du<em>permis</em></a>
+<div class="userbar">
+<span>👤 <b id="userEmail"></b></span>
+<button id="logout">Se déconnecter</button>
+</div>
+</div></header>
+
+<div class="page-title"><div class="wrap">
+<h1>Mon compte</h1>
+<p class="sub" id="welcomeSub">Chargement…</p>
+</div></div>
+
+<div class="main">
+
+<div class="loading" id="initialLoad">
+<div class="spinner"></div>
+Chargement de votre compte…
+</div>
+
+<div class="hidden" id="dashboard">
+
+<!-- OFFRE COMMERCIALE EN COURS -->
+<div id="offerBlock"></div>
+
+<!-- MES FICHES -->
+<div class="section-h" id="fichesTitle">Mes fiches auto-écoles</div>
+<div id="fichesList"></div>
+
+<!-- RATTACHER -->
+<div class="section-h" id="attachTitle">Ajouter une auto-école à mon compte</div>
+<div class="attach-card" id="attachCard">
+<h3>🏢 Rattacher une auto-école</h3>
+<p>Cherchez votre établissement par nom et ville. La fiche apparaît déjà sur placedupermis.fr — rattachez-la à votre compte pour pouvoir la modifier.</p>
+<div class="search-inline">
+<input type="text" id="searchInput" placeholder="Nom + ville (ex : SAM FORMATIONS Challans)">
+<button class="btn" id="searchBtn">Chercher</button>
+</div>
+<div class="results" id="searchResults"></div>
+</div>
+
+<!-- SOCLE vs PREMIUM -->
+<div class="section-h">Comment ça marche</div>
+<div class="util-card" style="padding:20px 22px;margin-bottom:16px">
+<h4 style="margin:0 0 10px;font-size:1rem">📄 Deux versions de votre fiche</h4>
+<p style="margin:0 0 8px;font-size:.9rem;line-height:1.55">
+<b>Fiche socle (gratuite, active par défaut)</b> — nom, adresse, taux de réussite officiels issus de RAFAEL. Affichée avec un bloc « à comparer à 25 km » qui met en avant vos voisines.
+</p>
+<p style="margin:0;font-size:.9rem;line-height:1.55">
+<b>Fiche Premium (108 €/an)</b> — vos tarifs, photos, horaires, WhatsApp, offre commerciale, mot du gérant. Bloc « à comparer » retiré. Formulaire de demande de devis. C'est cette version qu'on active en cliquant sur « Publier ma fiche Premium ».
+</p>
+</div>
+
+<!-- PETITS TRUCS -->
+<div class="section-h">Bon à savoir</div>
+<div class="util-grid">
+<div class="util-card">
+<h4>💬 Une question, un souci ?</h4>
+<p>Réponse sous 24 h ouvrées. <a href="mailto:contact@placedupermis.fr">contact@placedupermis.fr</a></p>
+</div>
+<div class="util-card">
+<h4>📄 Vos données officielles</h4>
+<p>Nom, adresse, tx réussite : issus de <b>RAFAEL</b> (Ministère de l'Intérieur), rafraîchis chaque mois. Non modifiables — c'est votre garantie de véracité auprès des candidats.</p>
+</div>
+<div class="util-card">
+<h4>🔄 Modifiez à tout moment</h4>
+<p>Une fois Premium, vos modifications (photos, tarifs, horaires, offre) apparaissent en ligne en moins d'une minute, autant de fois que vous le souhaitez.</p>
+</div>
+<div class="util-card">
+<h4>📝 Modifier une info officielle ?</h4>
+<p>Adresse ou statut incorrect ? <a href="mailto:contact@placedupermis.fr?subject=Correction%20fiche">Signaler-nous la correction</a> — on met à jour à la source.</p>
+</div>
+</div>
+
+<!-- FOOTER MINIMAL -->
+<footer style="margin-top:40px;padding:24px 0 20px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:.82rem">
+<div><a href="/" style="color:var(--muted);text-decoration:none">placedupermis.fr</a> · <a href="/mentions/" style="color:var(--muted);text-decoration:none">Mentions légales</a> · <a href="/confidentialite/" style="color:var(--muted);text-decoration:none">Confidentialité</a> · <a href="/cgu/" style="color:var(--muted);text-decoration:none">CGU</a> · <a href="mailto:contact@placedupermis.fr" style="color:var(--muted);text-decoration:none">contact@placedupermis.fr</a></div>
+</footer>
+
+</div>
+</div>
+
+<script type="module">
+window.addEventListener('error', e => showFatalError(e.error?.message || e.message))
+window.addEventListener('unhandledrejection', e => showFatalError(e.reason?.message || String(e.reason)))
+function showFatalError(msg) {
+  const el = document.getElementById('initialLoad')
+  if (!el) return
+  el.innerHTML = `<div style="color:#a12530;text-align:left;font-family:monospace;padding:10px;background:#fff5f5;border:1px solid #f5c9c9;border-radius:8px;font-size:.85rem">
+    <b>⚠ Erreur au chargement :</b><br>${(msg || 'inconnue').replace(/</g,'&lt;')}<br><br>
+    <a href="/pro/connexion/" style="color:#2452e0">← Retour à la connexion</a>
+  </div>`
+}
+
+import '/pro/assets/pdp-pro.js'
+const { sb, api, requireAuth } = window.pdp
+
+const session = await requireAuth()
+if (!session) throw new Error('redirect')
+
+document.getElementById('userEmail').textContent = session.user.email
+
+function esc(s) { return (s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])) }
+function fmtDate(iso) { if (!iso) return ''; const p = iso.slice(0,10).split('-'); return `${p[2]}/${p[1]}/${p[0]}` }
+
+// Chargement en parallèle : fiches attachées + launch counter
+const [attachedRes, launchRes] = await Promise.all([
+  sb.from('account_fiches')
+    .select('fiche_id, attached_at, fiches(id, name, slug, city, postcode, dept, address_line1)')
+    .eq('account_id', session.user.id).order('attached_at', { ascending: true }),
+  sb.from('launch_counter').select('seats_taken, seats_max, ends_at').maybeSingle(),
+])
+
+if (attachedRes.error) throw new Error(attachedRes.error.message)
+const attached = attachedRes.data || []
+const launch = launchRes.data
+
+// Charger les drafts + subs pour chaque fiche
+let drafts = {}, subs = {}
+if (attached.length) {
+  const ficheIds = attached.map(a => a.fiche_id)
+  const [dr, sr] = await Promise.all([
+    sb.from('drafts').select('*').in('fiche_id', ficheIds),
+    sb.from('subscriptions').select('*').in('fiche_id', ficheIds).eq('status', 'active'),
+  ])
+  for (const d of (dr.data || [])) drafts[d.fiche_id] = d
+  for (const s of (sr.data || [])) subs[s.fiche_id] = s
+}
+
+document.getElementById('initialLoad').classList.add('hidden')
+document.getElementById('dashboard').classList.remove('hidden')
+
+document.getElementById('welcomeSub').textContent = attached.length
+  ? `Vous gérez ${attached.length} fiche${attached.length > 1 ? 's' : ''} auto-école${attached.length > 1 ? 's' : ''}.`
+  : 'Bienvenue ! Rattachez votre première auto-école ci-dessous pour commencer.'
+
+// ─── OFFRE EN COURS ───
+// Défaut sûr : si launch_counter n'a pas pu être lu, on suppose early bird ouvert
+// (moins pénalisant que d'annoncer le tarif standard à un prospect à tort).
+const launchExhausted = launch && (launch.seats_taken >= launch.seats_max || new Date(launch.ends_at) < new Date())
+const offerEl = document.getElementById('offerBlock')
+if (!launchExhausted) {
+  const remaining = launch ? Math.max(0, launch.seats_max - launch.seats_taken) : 50
+  const maxSeats = launch ? launch.seats_max : 50
+  const endsDate = launch ? fmtDate(launch.ends_at) : '31/12/2026'
+  offerEl.innerHTML = `<div class="offer-card">
+    <div class="oc-icon">🎯</div>
+    <div class="oc-body">
+      <h3>Offre de lancement · <span class="stat">108 € HT / an</span></h3>
+      <p><b class="stat">${remaining}</b> places restantes sur ${maxSeats} · valable jusqu'au <b>${endsDate}</b> · ensuite le tarif standard passera à 228 € HT/an.</p>
+    </div>
+  </div>`
+} else {
+  offerEl.innerHTML = `<div class="offer-card standard">
+    <div class="oc-icon">💼</div>
+    <div class="oc-body">
+      <h3>Tarif standard · 228 € HT / an</h3>
+      <p>Engagement 1 an sans reconduction tacite. Résiliable à tout moment sans frais (l'accès reste actif jusqu'à échéance).</p>
+    </div>
+  </div>`
+}
+
+// ─── FICHES ───
+const list = document.getElementById('fichesList')
+if (!attached.length) {
+  document.getElementById('fichesTitle').classList.add('hidden')
+  list.classList.add('hidden')
+} else {
+  list.innerHTML = attached.map(a => {
+    const f = a.fiches
+    const draft = drafts[a.fiche_id] || {}
+    const sub = subs[a.fiche_id]
+    const isPremium = !!sub
+    const progress = draftProgress(draft)
+    return `<div class="fiche-card ${isPremium ? 'published' : ''}">
+      <div class="fc-body">
+        <div class="fc-name">
+          <h2>${esc(f.name)}</h2>
+          <span class="plan-pill ${isPremium ? 'premium' : 'free'}">${isPremium ? 'En ligne' : 'Brouillon'}</span>
+        </div>
+        <p class="fc-meta">${esc(f.address_line1 || '')} · ${esc(f.city || '')} (${f.postcode || ''}) · agrément <code>${f.id}</code></p>
+        ${isPremium ? `
+          <p class="sub-info">✅ Abonnement <b>${sub.plan}</b>${sub.is_launch_price ? ' (offre lancement)' : ''} · échéance <b>${fmtDate(sub.current_period_end)}</b>${sub.cancel_at_period_end ? ' · <b style="color:#a12530">non reconduit</b>' : ''}</p>
+        ` : `
+          <div class="fc-progress">
+            Brouillon rempli à <b>${progress}%</b>
+            <div class="bar"><div class="bar-fill" style="width:${progress}%"></div></div>
+          </div>
+        `}
+      </div>
+      <div class="fc-actions">
+        <a href="/pro/fiche/?id=${encodeURIComponent(f.id)}" class="primary">${isPremium ? 'Modifier' : 'Compléter ma fiche'} →</a>
+        ${isPremium ? `<a href="/auto-ecole/${f.slug}/" target="_blank">Voir en ligne</a>` : `<a href="/pro/apercu/?fiche_id=${encodeURIComponent(f.id)}" target="_blank">👁 Aperçu</a>`}
+        ${isPremium ? (sub.cancel_at_period_end
+          ? `<button data-action="reactivate" data-sub="${sub.id}" data-fname="${esc(f.name)}" style="border-color:#0d7a43;color:#0d7a43">↻ Réactiver reconduction</button>`
+          : `<button data-action="cancel" data-sub="${sub.id}" data-fname="${esc(f.name)}" data-end="${fmtDate(sub.current_period_end)}" style="color:var(--muted);font-size:.8rem;padding:8px 12px">Ne pas reconduire</button>`
+        ) : ''}
+      </div>
+    </div>`
+  }).join('')
+}
+
+// Nombre de champs remplis / total pour la barre de progression
+function draftProgress(d) {
+  const fields = ['contact_phone','contact_email','contact_website','description','long_description','quote_text','manager_name','contact_whatsapp','offer_title']
+  const arrays = ['specialties','prices','photos']
+  const hoursOk = d.hours && Object.keys(d.hours).some(k => d.hours[k] !== undefined)
+  let filled = 0, total = fields.length + arrays.length + 1
+  for (const k of fields) if ((d[k] || '').trim && (d[k] || '').trim()) filled++
+  for (const k of arrays) if (Array.isArray(d[k]) && d[k].length) filled++
+  if (hoursOk) filled++
+  return Math.round(100 * filled / total)
+}
+
+// ─── RATTACHER ───
+async function doSearch() {
+  const q = document.getElementById('searchInput').value.trim()
+  const resultsBox = document.getElementById('searchResults')
+  if (q.length < 3) { resultsBox.innerHTML = '<p style="text-align:center;color:var(--muted);font-size:.85rem;padding:14px">Tapez au moins 3 caractères.</p>'; return }
+  resultsBox.innerHTML = '<p style="text-align:center;color:var(--muted);font-size:.85rem;padding:14px">Recherche…</p>'
+  const parts = q.split(/\s+/)
+  const cityGuess = parts.length > 1 ? parts[parts.length - 1] : null
+  const nameGuess = cityGuess ? parts.slice(0, -1).join(' ') : q
+  let query = sb.from('fiches').select('id, name, city, postcode, dept, address_line1').eq('status', 'active').limit(20)
+  if (cityGuess && cityGuess.length >= 3) query = query.ilike('name', `%${nameGuess}%`).ilike('city', `%${cityGuess}%`)
+  else query = query.ilike('name', `%${q}%`)
+  let { data, error } = await query
+  if (error) { resultsBox.innerHTML = `<p style="color:#a12530;padding:12px;text-align:center;font-size:.85rem">Erreur : ${error.message}</p>`; return }
+  if (!data.length) {
+    const { data: fb } = await sb.from('fiches').select('id, name, city, postcode, dept, address_line1').eq('status', 'active').ilike('name', `%${q}%`).limit(20)
+    if (!fb || !fb.length) { resultsBox.innerHTML = '<p style="text-align:center;color:var(--muted);font-size:.85rem;padding:14px">Aucun résultat. Contactez-nous si votre fiche est manquante.</p>'; return }
+    data = fb
+  }
+  resultsBox.innerHTML = data.map(fx => `<div class="result-item" data-id="${fx.id}"><div class="body"><b>${esc(fx.name)}</b><small>${esc(fx.address_line1 || '')} · ${esc(fx.city || '')} (${fx.postcode || ''}) · <code>${fx.id}</code></small></div><button class="attach">C'est ma fiche →</button></div>`).join('')
+  resultsBox.querySelectorAll('.result-item').forEach(el => el.addEventListener('click', () => attachFiche(el.dataset.id)))
+}
+document.getElementById('searchBtn').addEventListener('click', doSearch)
+document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch() })
+async function attachFiche(fiche_id) {
+  try {
+    await api('/api/attach-fiche', { body: { fiche_id } })
+    location.href = `/pro/fiche/?id=${encodeURIComponent(fiche_id)}`
+  } catch (e) { alert('Erreur : ' + e.message) }
+}
+
+// ─── ANNULATION / RÉACTIVATION ABONNEMENT ───
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('button[data-action]')
+  if (!btn) return
+  const action = btn.dataset.action
+  const subId = btn.dataset.sub
+  const fname = btn.dataset.fname
+  if (action === 'cancel') {
+    const end = btn.dataset.end
+    if (!confirm(`Ne plus reconduire l'abonnement de « ${fname} » ?\n\nVotre fiche restera Premium jusqu'à l'échéance (${end}), puis redeviendra une fiche gratuite.\nAucun débit supplémentaire ne sera effectué.`)) return
+    btn.disabled = true; btn.textContent = '…'
+    try {
+      await api('/api/cancel-subscription', { body: { subscription_id: subId, mode: 'at_period_end' } })
+      location.reload()
+    } catch (err) { alert('Erreur : ' + err.message); btn.disabled = false; btn.textContent = 'Ne pas reconduire' }
+  } else if (action === 'reactivate') {
+    if (!confirm(`Réactiver la reconduction pour « ${fname} » ?\n\nVotre abonnement se poursuivra à l'échéance comme prévu.`)) return
+    btn.disabled = true; btn.textContent = '…'
+    try {
+      await api('/api/cancel-subscription', { body: { subscription_id: subId, mode: 'reactivate' } })
+      location.reload()
+    } catch (err) { alert('Erreur : ' + err.message); btn.disabled = false; btn.textContent = '↻ Réactiver reconduction' }
+  }
+})
+
+document.getElementById('logout').addEventListener('click', async () => { await sb.auth.signOut(); location.replace('/') })
+</script>
+
+</body></html>

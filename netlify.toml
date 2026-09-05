@@ -1,0 +1,32 @@
+# placedupermis.fr : site Netlify DISTINCT (ne pas rattacher aux sites omyeu / parcoursioux)
+[build]
+  command = "python3 site/generate.py"
+  publish = "site/dist"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+  included_files = ["backend/lib/**"]
+
+# Toutes les routes /api/* pointent vers les fonctions du même nom
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# Stripe webhook : besoin du body brut pour vérifier la signature
+[[headers]]
+  for = "/api/stripe-webhook"
+  [headers.values]
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"

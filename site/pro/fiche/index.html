@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Éditer ma fiche · placedupermis.fr</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23132a5c'/%3E%3Crect x='6' y='19' width='20' height='7' rx='2' fill='%23c6f432'/%3E%3Ctext x='16' y='15' font-family='system-ui' font-size='12' font-weight='800' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/pro/assets/style.css">
+<style>
+body{background:var(--bg);min-height:100vh}
+.top{background:var(--navy);color:#fff;padding:14px 0}
+.top .wrap{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:0 20px;max-width:960px;margin:0 auto}
+.top .logo{color:#fff;font-weight:900;font-size:1.1rem;text-decoration:none;letter-spacing:-.02em}
+.top .logo em{font-style:normal;background:var(--volt);border-radius:6px;padding:1px 6px;margin-left:2px;color:var(--volt-ink)}
+.top .userbar{display:flex;align-items:center;gap:14px;font-size:.85rem;color:#c9d1e5}
+.top .userbar a{color:#c9d1e5;text-decoration:none;border-bottom:1px dotted rgba(255,255,255,.3)}
+.top .userbar a:hover{color:#fff}
+
+.page-title{background:var(--navy);color:#fff;padding:0 0 20px}
+.page-title .wrap{padding:0 20px;max-width:960px;margin:0 auto}
+.page-title .crumbs{color:#c9d1e5;font-size:.82rem;margin-bottom:6px}
+.page-title .crumbs a{color:#c9d1e5;text-decoration:none;border-bottom:1px dotted rgba(255,255,255,.3)}
+.page-title h1{margin:0;color:#fff;font-size:1.5rem}
+.page-title .sub{color:#c9d1e5;font-size:.85rem;margin:4px 0 0}
+
+.main{max-width:960px;margin:20px auto;padding:0 20px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:16px;position:relative}
+
+.loading{color:var(--muted);text-align:center;padding:60px 20px}
+.spinner{width:32px;height:32px;border:3px solid var(--line);border-top-color:var(--navy);border-radius:50%;animation:spin .8s linear infinite;margin:12px auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.fiche-header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.fiche-header h2{margin:0;font-size:1.2rem}
+.fiche-header .fh-meta{color:var(--muted);font-size:.85rem;margin-top:4px}
+.plan-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.plan-pill.free{background:#eef0f4;color:var(--ink2)}
+.plan-pill.premium{background:var(--volt);color:var(--volt-ink)}
+
+.draft-banner{background:linear-gradient(90deg,#fffceb,#fff8d8);border:1.5px solid #f0dc7a;border-radius:14px;padding:18px 24px;display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.draft-banner .d-icon{font-size:1.7rem;flex-shrink:0}
+.draft-banner .d-body{flex:1;min-width:220px}
+.draft-banner .d-body b{display:block;color:#8a6100;font-size:.98rem}
+.draft-banner .d-body p{color:var(--ink2);font-size:.85rem;margin:2px 0 0}
+.draft-banner .d-cta{background:var(--navy);color:#fff !important;padding:12px 22px;border-radius:10px;text-decoration:none;font-weight:800;font-size:.95rem;white-space:nowrap;cursor:pointer;border:none;font-family:inherit}
+.draft-banner .d-cta:hover{background:#1e3d84}
+.draft-banner.published{background:linear-gradient(90deg,#e6f5e6,#c8e880);border-color:#0d7a43}
+.draft-banner.published .d-icon{color:#0d7a43}
+.draft-banner.published .d-body b{color:#0d7a43}
+
+.preview-btn{display:inline-flex;align-items:center;gap:6px;color:var(--blue);text-decoration:none;font-weight:650;font-size:.85rem;border:1.5px solid var(--blue);padding:8px 14px;border-radius:9px;background:#fff}
+.preview-btn:hover{background:var(--blue-bg)}
+
+h3.sec-title{font-size:1rem;margin:0 0 4px;color:var(--ink)}
+p.sec-desc{color:var(--muted);font-size:.83rem;margin:0 0 14px}
+
+label{display:block;margin:12px 0 5px;font-weight:650;font-size:.85rem;color:var(--ink)}
+label .hint{color:var(--muted);font-weight:500;font-size:.78rem;margin-left:6px}
+input[type=text],input[type=email],input[type=tel],input[type=url],input[type=date],input[type=number],textarea{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;font-family:inherit;font-size:.92rem;color:var(--ink);background:#fff;transition:border .1s}
+input:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-bg)}
+textarea{min-height:70px;resize:vertical;line-height:1.5}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.row{grid-template-columns:1fr}}
+.field-count{color:var(--muted);font-size:.76rem;margin-top:4px;text-align:right}
+
+.hours-editor{display:grid;grid-template-columns:100px 1fr auto;gap:8px;margin:5px 0;align-items:center}
+.hours-editor .day{font-weight:650;font-size:.88rem}
+.hours-editor input{padding:6px 10px}
+.hours-editor label.closed{display:flex;gap:6px;align-items:center;margin:0;font-size:.78rem;color:var(--muted);font-weight:500}
+.hours-editor input:disabled{background:#f5f6f9;color:var(--muted)}
+
+.photos-mgr{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+@media(max-width:640px){.photos-mgr{grid-template-columns:repeat(2,1fr)}}
+.photo-slot{aspect-ratio:1;border-radius:12px;overflow:hidden;position:relative;background:#eef0f4;cursor:pointer}
+.photo-slot.filled{background-size:cover;background-position:center}
+.photo-slot.filled::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(0,0,0,.4))}
+.photo-slot .del{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.7);color:#fff;border:none;width:26px;height:26px;border-radius:50%;font-size:.9rem;cursor:pointer;display:none;z-index:2}
+.photo-slot.filled .del{display:block}
+.photo-slot .lbl{position:absolute;bottom:6px;left:8px;color:#fff;font-size:.7rem;font-weight:600;z-index:2}
+.photo-slot.empty{display:flex;align-items:center;justify-content:center;color:var(--muted);border:2px dashed var(--line);background:#fff;flex-direction:column;font-size:.78rem;text-align:center;padding:8px}
+.photo-slot.empty .plus{font-size:1.6rem;margin-bottom:2px}
+.photo-slot.main-photo{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+.photo-slot.uploading{opacity:.6;pointer-events:none}
+
+.chip-picker{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip-picker label{margin:0;cursor:pointer;font-weight:400}
+.chip-picker input{display:none}
+.chip-picker .cp-chip{display:inline-block;background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:6px 12px;font-size:.82rem;font-weight:650;color:var(--ink2);transition:all .1s}
+.chip-picker input:checked+.cp-chip{background:var(--navy);color:#fff;border-color:var(--navy)}
+
+.pricing-row{display:grid;grid-template-columns:1.4fr 1fr 90px 30px;gap:8px;align-items:end;margin:8px 0}
+@media(max-width:640px){.pricing-row{grid-template-columns:1fr 90px;gap:6px}.pricing-row .del-row{grid-column:span 2}.pricing-row input[type=text]:nth-of-type(2){grid-column:span 2}}
+.pricing-row .del-row{background:none;border:none;color:#c93636;cursor:pointer;font-size:1.1rem;padding:0}
+.add-btn{background:var(--blue-bg);color:var(--navy);border:1.5px dashed var(--blue);border-radius:10px;padding:9px 14px;font-weight:650;font-size:.85rem;cursor:pointer;font-family:inherit;margin-top:6px}
+.add-btn:hover{background:#dbe4fa}
+
+.autosave{position:fixed;bottom:20px;right:20px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 14px;font-size:.82rem;color:var(--muted);box-shadow:0 4px 20px -8px rgba(0,0,0,.2);opacity:0;transition:opacity .3s;pointer-events:none;z-index:100}
+.autosave.show{opacity:1}
+.autosave.ok{color:#0d7a43}
+.autosave.err{color:#a12530}
+.hidden{display:none}
+
+.pub-cta{background:linear-gradient(180deg,#fffceb,#fff8d8);border:1.5px solid #f0dc7a;border-radius:14px;padding:24px;text-align:center;margin-top:24px}
+.pub-cta.done{background:linear-gradient(180deg,#e6f5e6,#c8e880);border-color:#0d7a43}
+.pub-cta h3{margin:0 0 6px;font-size:1.15rem;color:#8a6100}
+.pub-cta.done h3{color:#0d7a43}
+.pub-cta p{color:var(--ink2);font-size:.9rem;margin:0 0 14px;max-width:540px;margin:0 auto 14px}
+.pub-cta .price-line{font-size:.85rem;color:var(--ink2);margin:8px 0 0}
+.pub-cta .price-line b{color:var(--ink)}
+.pub-cta .publish-btn{background:var(--navy);color:#fff;border:none;padding:14px 32px;border-radius:12px;font-weight:800;font-size:1rem;cursor:pointer;font-family:inherit}
+.pub-cta .publish-btn:hover{background:#1e3d84}
+.pub-cta.done .publish-btn{background:#0d7a43;cursor:default}
+</style>
+</head><body>
+
+<header class="top"><div class="wrap">
+<a class="logo" href="/">place du<em>permis</em></a>
+<div class="userbar">
+<a href="/pro/mon-espace/">← Mon compte</a>
+<span>👤 <b id="userEmail"></b></span>
+</div>
+</div></header>
+
+<div class="page-title"><div class="wrap">
+<div class="crumbs"><a href="/pro/mon-espace/">Mon compte</a> · Éditer la fiche</div>
+<h1 id="pageH1">Ma fiche</h1>
+<p class="sub" id="pageSub">Chargement…</p>
+</div></div>
+
+<div class="main">
+
+<div class="card loading" id="initialLoad">
+<div class="spinner"></div>
+Chargement…
+</div>
+
+<div class="hidden" id="editorScreen">
+
+<div class="draft-banner" id="draftBanner">
+<span class="d-icon">📝</span>
+<div class="d-body">
+<b id="draftBannerTitle">Votre fiche est en brouillon</b>
+<p id="draftBannerSub">Remplissez tranquillement — rien n'est publié tant que vous n'avez pas payé.</p>
+</div>
+<a href="#" class="preview-btn" id="previewBtn" target="_blank">👁 Aperçu</a>
+<button class="d-cta" id="publishBtnTop">Publier ma fiche Premium</button>
+</div>
+
+<div class="card">
+<div class="fiche-header">
+<div>
+<h2 id="ficheName">–</h2>
+<p class="fh-meta"><span id="ficheAddr">–</span> · agrément <span id="ficheId">–</span></p>
+</div>
+<div style="text-align:right">
+<span class="plan-pill free" id="planPill">Brouillon</span>
+<div style="margin-top:8px"><a href="#" target="_blank" id="viewPublic" style="color:var(--blue);font-size:.82rem;text-decoration:none;font-weight:650">Voir ma fiche publique →</a></div>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3 class="sec-title">Contact</h3>
+<p class="sec-desc">Ces coordonnées apparaissent publiquement dès qu'elles sont saisies.</p>
+<div class="row">
+<div><label>Téléphone</label><input type="tel" data-fld="contact_phone" placeholder="02 51 68 32 19"></div>
+<div><label>Email de contact <span class="hint">(reçoit les demandes de devis)</span></label><input type="email" data-fld="contact_email"></div>
+</div>
+<div style="margin-top:10px"><label>Site web <span class="hint">(facultatif)</span></label><input type="url" data-fld="contact_website" placeholder="https://…"></div>
+</div>
+
+<div class="card">
+<h3 class="sec-title">Horaires d'ouverture</h3>
+<p class="sec-desc">Renseignez les créneaux de chaque jour, ou cochez « fermé ». Format libre (« 9h-12h · 14h-19h »).</p>
+<div id="hoursEditor"></div>
+<label style="margin-top:14px">Note complémentaire <span class="hint">(parking, transports, accessibilité…)</span></label>
+<input type="text" data-fld="hours_note" placeholder="Parking gratuit devant l'école · Arrêt de bus « Perrin » à 50 m">
+</div>
+
+<div class="card">
+<h3 class="sec-title">Description courte</h3>
+<p class="sec-desc">300 caractères max. Affichée sur votre fiche publique.</p>
+<textarea data-fld="description" maxlength="300" placeholder="Ex : Auto-école familiale à Challans, formation permis B et moto A2 depuis 2016."></textarea>
+<p class="field-count" id="descCount">0 / 300</p>
+</div>
+
+<div class="card">
+<h3 class="sec-title">Spécialités & équipements</h3>
+<p class="sec-desc">Cochez ce que vous proposez. Devient des filtres pour les candidats.</p>
+<div class="chip-picker" id="specialtiesPicker"></div>
+</div>
+
+<div class="card">
+<h3 class="sec-title">Photo principale</h3>
+<p class="sec-desc">Une photo affichée sur votre fiche publique. JPG/PNG, 5 Mo max.</p>
+<div class="photos-mgr" style="grid-template-columns:1fr;max-width:400px">
+<div class="photo-slot empty main-photo" id="mainPhotoSlot" data-index="0">
+<div class="plus">+</div>
+<div>Cliquez pour ajouter une photo</div>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3 class="sec-title">Galerie photos supplémentaires</h3>
+<p class="sec-desc">Jusqu'à 9 photos additionnelles (locaux, flotte, équipe, simulateur).</p>
+<div class="photos-mgr" id="extraPhotos"></div>
+</div>
+
+<div class="card">
+<h3 class="sec-title">Présentation détaillée</h3>
+<p class="sec-desc">Description longue de votre auto-école + mot du gérant.</p>
+<label>Description longue</label>
+<textarea data-fld="long_description" placeholder="Fondée en 2016, notre auto-école forme chaque année…" rows="4"></textarea>
+<label style="margin-top:14px">Mot du gérant <span class="hint">(citation mise en valeur)</span></label>
+<textarea data-fld="quote_text" maxlength="300" placeholder="Ex : « Notre priorité c'est un permis solide, pas un permis rapide. »"></textarea>
+<div class="row" style="margin-top:12px">
+<div><label>Nom & prénom du gérant</label><input type="text" data-fld="manager_name" placeholder="Samuel Robineau"></div>
+<div><label>Rôle affiché</label><input type="text" data-fld="manager_role" placeholder="gérant fondateur"></div>
+</div>
+</div>
+
+<div class="card">
+<h3 class="sec-title">Tarifs — votre info exclusive</h3>
+<p class="sec-desc">Absente de RAFAEL et de tous les annuaires. C'est elle qui capte les recherches « prix permis [ville] ».</p>
+<div id="pricingList"></div>
+<button class="add-btn" id="addPriceBtn">+ Ajouter un forfait</button>
+</div>
+
+<div class="card">
+<h3 class="sec-title">Formulaire de devis + WhatsApp</h3>
+<p class="sec-desc">Les visiteurs vous joignent en 1 clic — les leads arrivent dans votre email.</p>
+<label>Numéro WhatsApp <span class="hint">(format international, sans espace)</span></label>
+<input type="tel" data-fld="contact_whatsapp" placeholder="+33612345678">
+<p style="margin-top:6px;font-size:.78rem;color:var(--muted)">💬 Un bouton « Ouvrir WhatsApp » apparaîtra sur votre fiche.</p>
+<label style="margin-top:14px">Message WhatsApp pré-rempli <span class="hint">(facultatif)</span></label>
+<input type="text" data-fld="whatsapp_msg" maxlength="120" placeholder="Bonjour, je suis intéressé(e) par le permis B">
+</div>
+
+<div class="card">
+<h3 class="sec-title">Bandeau offre commerciale</h3>
+<p class="sec-desc">Une bannière visible en haut de votre fiche pour vos promos saisonnières.</p>
+<div class="row">
+<div><label>Titre court <span class="hint">(60 caractères max)</span></label><input type="text" data-fld="offer_title" maxlength="60" placeholder="–100 € sur le forfait Permis B jusqu'au 30 septembre"></div>
+<div><label>Précision <span class="hint">(80 max)</span></label><input type="text" data-fld="offer_subtitle" maxlength="80" placeholder="Code AAC offert · financement 3× sans frais"></div>
+</div>
+<div class="row" style="margin-top:12px">
+<div><label>Étiquette courte</label><input type="text" data-fld="offer_tag" maxlength="40" placeholder="Rentrée 2026"></div>
+<div><label>Date de fin d'affichage</label><input type="date" data-fld="offer_ends_at"></div>
+</div>
+<div style="margin-top:12px;max-width:120px"><label>Emoji</label><input type="text" data-fld="offer_emoji" maxlength="4" style="text-align:center;font-size:1.2rem" placeholder="🎁"></div>
+</div>
+
+<!-- CTA final avec le prix -->
+<div class="pub-cta" id="pubCtaBottom">
+<h3 id="pubCtaH">🚀 Prêt à publier votre fiche ?</h3>
+<p id="pubCtaP">Toutes vos modifications ci-dessus seront publiées d'un coup dès validation du paiement.</p>
+<button class="publish-btn" id="publishBtnBottom">Publier ma fiche Premium</button>
+<p class="price-line" id="pubCtaPrice"></p>
+</div>
+
+</div>
+</div>
+
+<footer style="max-width:960px;margin:20px auto 0;padding:24px 20px 20px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:.82rem">
+<div><a href="/" style="color:var(--muted);text-decoration:none">placedupermis.fr</a> · <a href="/mentions/" style="color:var(--muted);text-decoration:none">Mentions légales</a> · <a href="/confidentialite/" style="color:var(--muted);text-decoration:none">Confidentialité</a> · <a href="/cgu/" style="color:var(--muted);text-decoration:none">CGU</a> · <a href="mailto:contact@placedupermis.fr" style="color:var(--muted);text-decoration:none">contact@placedupermis.fr</a></div>
+</footer>
+
+<div class="autosave" id="autosave"></div>
+
+<script type="module">
+window.addEventListener('error', e => showFatalError(e.error?.message || e.message))
+window.addEventListener('unhandledrejection', e => showFatalError(e.reason?.message || String(e.reason)))
+function showFatalError(msg) {
+  const el = document.getElementById('initialLoad')
+  if (!el) return
+  el.innerHTML = `<div style="color:#a12530;text-align:left;font-family:monospace;padding:10px;background:#fff5f5;border:1px solid #f5c9c9;border-radius:8px;font-size:.85rem">
+    <b>⚠ Erreur au chargement :</b><br>${(msg || 'inconnue').replace(/</g,'&lt;')}<br><br>
+    <a href="/pro/mon-espace/" style="color:#2452e0">← Retour au compte</a>
+  </div>`
+}
+
+import '/pro/assets/pdp-pro.js'
+const { sb, api, requireAuth } = window.pdp
+
+const session = await requireAuth()
+if (!session) throw new Error('redirect')
+
+document.getElementById('userEmail').textContent = session.user.email
+
+const ficheId = new URLSearchParams(location.search).get('id')
+if (!ficheId) {
+  location.replace('/pro/mon-espace/')
+  throw new Error('redirect')
+}
+
+const DAYS = [['mon','Lundi'],['tue','Mardi'],['wed','Mercredi'],['thu','Jeudi'],['fri','Vendredi'],['sat','Samedi'],['sun','Dimanche']]
+const SPECS = [
+  ['permis_b','🚗 Permis B (BM)'],['bea','⚙️ Boîte auto'],['moto_a2','🏍️ Permis A2'],['moto_a1','🏍️ Permis A1'],
+  ['aac','👦 Conduite accompagnée'],['cs','🎓 Conduite supervisée'],['simulateur','🖥️ Simulateur'],
+  ['pl','🚛 Poids lourd'],['tc','🚌 Transport en commun'],['pmr','♿ Accessibilité PMR'],
+  ['sourd_mal','👂 Sourd/malentendant'],['permis_1e','🎫 Permis à 1 €/jour'],['cpf','🏫 CPF accepté'],
+  ['paiement_ech','💳 Paiement échelonné']
+]
+
+function esc(s) { return (s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])) }
+
+// Vérifie que la fiche est bien rattachée à ce compte
+const { data: rattach, error: eRatt } = await sb.from('account_fiches')
+  .select('fiche_id, fiches(id, name, slug, city, postcode, dept, address_line1)')
+  .eq('account_id', session.user.id).eq('fiche_id', ficheId).maybeSingle()
+
+if (eRatt) throw new Error(eRatt.message)
+if (!rattach) {
+  document.getElementById('initialLoad').innerHTML = `<div style="text-align:left;padding:14px;background:#fff5f5;border:1px solid #f5c9c9;border-radius:8px;color:#a12530">
+    <b>⚠ Fiche non rattachée</b><br>Cette fiche n'est pas dans votre compte.<br>
+    <a href="/pro/mon-espace/" style="color:#2452e0;font-weight:650">← Retour à mon compte</a>
+  </div>`
+  throw new Error('not attached')
+}
+
+const currentFiche = rattach
+const f = currentFiche.fiches
+let currentDraft = {}
+let isPremium = false
+let launchInfo = null
+
+// Load draft + subscription + launch counter en parallèle
+const [{ data: draft }, { data: subs }, { data: launch }] = await Promise.all([
+  sb.from('drafts').select('*').eq('fiche_id', f.id).maybeSingle(),
+  sb.from('subscriptions').select('*').eq('fiche_id', f.id).eq('status', 'active').maybeSingle(),
+  sb.from('launch_counter').select('seats_taken, seats_max, ends_at').maybeSingle(),
+])
+currentDraft = draft || {}
+isPremium = !!subs
+launchInfo = launch
+
+document.getElementById('initialLoad').classList.add('hidden')
+document.getElementById('editorScreen').classList.remove('hidden')
+
+document.getElementById('pageH1').textContent = f.name
+document.getElementById('pageSub').textContent = `${f.city || ''} · agrément ${f.id}`
+document.getElementById('ficheName').textContent = f.name
+document.getElementById('ficheAddr').textContent = `${f.address_line1 || ''} · ${f.city || ''} (${f.postcode || ''})`
+document.getElementById('ficheId').textContent = f.id
+document.getElementById('viewPublic').href = `/auto-ecole/${f.slug}/`
+
+// Champs simples
+document.querySelectorAll('[data-fld]').forEach(el => {
+  const fld = el.dataset.fld
+  el.value = currentDraft[fld] || ''
+})
+updateDescCount()
+renderHours(currentDraft.hours || {})
+renderSpecialties(currentDraft.specialties || [])
+renderPricing(currentDraft.prices || [])
+renderMainPhoto(currentDraft.photos || [])
+renderExtraPhotos(currentDraft.photos || [])
+
+// Statut / bandeau
+document.getElementById('planPill').textContent = isPremium ? 'En ligne' : 'Brouillon'
+document.getElementById('planPill').classList.toggle('premium', isPremium)
+document.getElementById('planPill').classList.toggle('free', !isPremium)
+
+const banner = document.getElementById('draftBanner')
+banner.classList.toggle('published', isPremium)
+banner.querySelector('.d-icon').textContent = isPremium ? '✅' : '📝'
+document.getElementById('draftBannerTitle').textContent = isPremium ? 'Votre fiche est en ligne' : 'Votre fiche est en brouillon'
+document.getElementById('draftBannerSub').textContent = isPremium
+  ? 'Vos modifications sont publiées automatiquement.'
+  : 'Remplissez tranquillement — rien n\'est publié tant que vous n\'avez pas payé.'
+
+const publishTop = document.getElementById('publishBtnTop')
+publishTop.textContent = isPremium ? '✓ En ligne' : 'Publier ma fiche Premium'
+publishTop.disabled = isPremium
+if (isPremium) { publishTop.style.opacity = '.6'; publishTop.style.cursor = 'default' }
+document.getElementById('previewBtn').href = `/pro/apercu/?fiche_id=${f.id}`
+
+// CTA final avec prix
+const pubCta = document.getElementById('pubCtaBottom')
+const pubBtn = document.getElementById('publishBtnBottom')
+if (isPremium) {
+  pubCta.classList.add('done')
+  document.getElementById('pubCtaH').textContent = '✅ Votre fiche est en ligne'
+  document.getElementById('pubCtaP').textContent = 'Abonnement actif' + (subs.current_period_end ? ` · échéance ${subs.current_period_end.slice(0, 10)}` : '') + '. Gérez votre abonnement depuis votre compte.'
+  pubBtn.textContent = 'En ligne ✓'
+  pubBtn.disabled = true
+  document.getElementById('pubCtaPrice').innerHTML = '<a href="/pro/mon-espace/" style="color:var(--blue);text-decoration:none">Gérer mon abonnement →</a>'
+} else {
+  // Défaut sûr : si launchInfo n'a pas pu être lu, on suppose early bird ouvert.
+  const launchExhausted = launchInfo && (launchInfo.seats_taken >= launchInfo.seats_max || new Date(launchInfo.ends_at) < new Date())
+  const remaining = launchInfo ? Math.max(0, launchInfo.seats_max - launchInfo.seats_taken) : 50
+  const maxSeats = launchInfo ? launchInfo.seats_max : 50
+  const endsIso = launchInfo ? launchInfo.ends_at : '2026-12-31'
+  pubBtn.textContent = 'Publier ma fiche Premium'
+  document.getElementById('pubCtaPrice').innerHTML = !launchExhausted
+    ? `<b>108 € HT / an</b> — offre de lancement · ${remaining} places restantes sur ${maxSeats} · valable jusqu'au ${endsIso.slice(8,10)}/${endsIso.slice(5,7)}/${endsIso.slice(0,4)}`
+    : `<b>228 € HT / an</b> · engagement 1 an sans reconduction tacite`
+}
+
+// ─── HORAIRES ───
+function renderHours(hours) {
+  const el = document.getElementById('hoursEditor')
+  el.innerHTML = DAYS.map(([k, label]) => {
+    const v = hours[k], closed = v === null || v === undefined
+    return `<div class="hours-editor" data-day="${k}">
+      <span class="day">${label}</span>
+      <input type="text" value="${esc(v || '')}" placeholder="9h-12h · 14h-19h" ${closed ? 'disabled' : ''}>
+      <label class="closed"><input type="checkbox" ${closed ? 'checked' : ''}> fermé</label>
+    </div>`
+  }).join('')
+  el.querySelectorAll('.hours-editor').forEach(row => {
+    const day = row.dataset.day, input = row.querySelector('input[type=text]'), chk = row.querySelector('input[type=checkbox]')
+    const emit = () => queueHoursSave(day, chk.checked ? null : input.value)
+    input.addEventListener('input', emit)
+    chk.addEventListener('change', () => { input.disabled = chk.checked; if (chk.checked) input.value = ''; emit() })
+  })
+}
+let hoursBuffer = null, hoursTimer = null
+function queueHoursSave(day, val) {
+  if (!hoursBuffer) hoursBuffer = { ...(currentDraft.hours || {}) }
+  hoursBuffer[day] = val
+  clearTimeout(hoursTimer)
+  showAutosave('', '⏳ …')
+  hoursTimer = setTimeout(async () => {
+    currentDraft.hours = hoursBuffer
+    try { await api('/api/save-draft', { body: { fiche_id: f.id, patch: { hours: hoursBuffer } } }); showAutosave('ok', '✓ Enregistré') }
+    catch (e) { showAutosave('err', '⚠ ' + e.message) }
+    hoursBuffer = null
+  }, 800)
+}
+
+// ─── SPÉCIALITÉS ───
+function renderSpecialties(active) {
+  const el = document.getElementById('specialtiesPicker')
+  const set = new Set(active)
+  el.innerHTML = SPECS.map(([k, label]) => `<label><input type="checkbox" data-spec="${k}" ${set.has(k) ? 'checked' : ''}><span class="cp-chip">${label}</span></label>`).join('')
+  el.querySelectorAll('input').forEach(cb => cb.addEventListener('change', () => {
+    const specs = [...el.querySelectorAll('input:checked')].map(x => x.dataset.spec)
+    currentDraft.specialties = specs
+    clearTimeout(saveTimers.specialties)
+    showAutosave('', '⏳ …')
+    saveTimers.specialties = setTimeout(async () => {
+      try { await api('/api/save-draft', { body: { fiche_id: f.id, patch: { specialties: specs } } }); showAutosave('ok', '✓ Enregistré') }
+      catch (e) { showAutosave('err', '⚠ ' + e.message) }
+    }, 800)
+  }))
+}
+
+// ─── PRIX ───
+function renderPricing(prices) {
+  const el = document.getElementById('pricingList')
+  const rows = prices.length ? prices : [{ name: '', desc: '', price_eur: '' }]
+  el.innerHTML = rows.map((p, i) => `<div class="pricing-row" data-i="${i}">
+    <input type="text" placeholder="Nom du forfait" value="${esc(p.name || '')}" data-k="name">
+    <input type="text" placeholder="Courte description" value="${esc(p.desc || '')}" data-k="desc">
+    <input type="number" placeholder="1190" value="${p.price_eur || ''}" data-k="price_eur">
+    <button class="del-row" title="Supprimer">🗑</button>
+  </div>`).join('')
+  el.querySelectorAll('.pricing-row').forEach(row => {
+    row.querySelectorAll('input').forEach(inp => inp.addEventListener('input', queuePricingSave))
+    row.querySelector('.del-row').addEventListener('click', () => { row.remove(); queuePricingSave() })
+  })
+}
+function queuePricingSave() {
+  clearTimeout(saveTimers.prices)
+  showAutosave('', '⏳ …')
+  saveTimers.prices = setTimeout(async () => {
+    const rows = [...document.querySelectorAll('#pricingList .pricing-row')].map(row => ({
+      name: row.querySelector('[data-k=name]').value,
+      desc: row.querySelector('[data-k=desc]').value,
+      price_eur: row.querySelector('[data-k=price_eur]').value,
+    })).filter(r => r.name || r.price_eur)
+    currentDraft.prices = rows
+    try { await api('/api/save-draft', { body: { fiche_id: f.id, patch: { prices: rows } } }); showAutosave('ok', '✓ Enregistré') }
+    catch (e) { showAutosave('err', '⚠ ' + e.message) }
+  }, 800)
+}
+document.getElementById('addPriceBtn').addEventListener('click', () => {
+  const el = document.getElementById('pricingList')
+  const div = document.createElement('div')
+  div.className = 'pricing-row'
+  div.innerHTML = `<input type="text" placeholder="Nom du forfait" data-k="name"><input type="text" placeholder="Description" data-k="desc"><input type="number" placeholder="1190" data-k="price_eur"><button class="del-row">🗑</button>`
+  el.appendChild(div)
+  div.querySelectorAll('input').forEach(inp => inp.addEventListener('input', queuePricingSave))
+  div.querySelector('.del-row').addEventListener('click', () => { div.remove(); queuePricingSave() })
+})
+
+// ─── PHOTOS ───
+function renderMainPhoto(photos) {
+  const slot = document.getElementById('mainPhotoSlot')
+  const first = photos && photos[0]
+  if (first) {
+    slot.className = 'photo-slot filled main-photo'
+    slot.style.backgroundImage = `url("${first}")`
+    slot.innerHTML = '<button class="del">×</button><span class="lbl">Photo principale</span>'
+    slot.querySelector('.del').addEventListener('click', e => { e.stopPropagation(); deletePhoto(0) })
+  } else {
+    slot.className = 'photo-slot empty main-photo'
+    slot.innerHTML = '<div class="plus">+</div><div>Cliquez pour ajouter une photo</div>'
+    slot.style.backgroundImage = ''
+  }
+  slot.onclick = () => triggerPhotoUpload(0)
+}
+function renderExtraPhotos(photos) {
+  const el = document.getElementById('extraPhotos')
+  const extras = (photos || []).slice(1)
+  const items = []
+  for (let i = 0; i < 9; i++) {
+    const idx = i + 1
+    const url = extras[i]
+    if (url) {
+      items.push(`<div class="photo-slot filled" data-index="${idx}" style="background-image:url('${url}')"><button class="del">×</button></div>`)
+    } else {
+      items.push(`<div class="photo-slot empty" data-index="${idx}"><div class="plus">+</div><div style="font-size:.7rem">Photo</div></div>`)
+    }
+  }
+  el.innerHTML = items.join('')
+  el.querySelectorAll('.photo-slot').forEach(slot => {
+    const idx = parseInt(slot.dataset.index)
+    slot.onclick = () => triggerPhotoUpload(idx)
+    const del = slot.querySelector('.del')
+    if (del) del.addEventListener('click', e => { e.stopPropagation(); deletePhoto(idx) })
+  })
+}
+const fileInput = document.createElement('input')
+fileInput.type = 'file'; fileInput.accept = 'image/*'; fileInput.style.display = 'none'
+document.body.appendChild(fileInput)
+let uploadIndex = null
+function triggerPhotoUpload(index) { uploadIndex = index; fileInput.click() }
+fileInput.addEventListener('change', async () => {
+  const file = fileInput.files[0]
+  if (!file) return
+  const slot = uploadIndex === 0 ? document.getElementById('mainPhotoSlot') : document.querySelector(`#extraPhotos [data-index="${uploadIndex}"]`)
+  slot?.classList.add('uploading')
+  try {
+    const ext = (file.name.split('.').pop() || 'jpg').toLowerCase()
+    const path = `${session.user.id}/${f.id}/${Date.now()}.${ext}`
+    const { error } = await sb.storage.from('fiche-photos').upload(path, file, { upsert: false })
+    if (error) throw error
+    const { data: pub } = sb.storage.from('fiche-photos').getPublicUrl(path)
+    const url = pub.publicUrl
+    const photos = [...(currentDraft.photos || [])]
+    photos[uploadIndex] = url
+    while (photos.includes(undefined)) photos[photos.indexOf(undefined)] = null
+    const clean = photos.filter(x => x)
+    currentDraft.photos = clean
+    await api('/api/save-draft', { body: { fiche_id: f.id, patch: { photos: clean } } })
+    renderMainPhoto(clean); renderExtraPhotos(clean)
+    showAutosave('ok', '✓ Photo ajoutée')
+  } catch (e) {
+    showAutosave('err', '⚠ ' + e.message)
+  } finally {
+    slot?.classList.remove('uploading')
+    fileInput.value = ''
+  }
+})
+async function deletePhoto(index) {
+  if (!confirm('Supprimer cette photo ?')) return
+  const photos = [...(currentDraft.photos || [])]
+  photos.splice(index, 1)
+  currentDraft.photos = photos
+  try {
+    await api('/api/save-draft', { body: { fiche_id: f.id, patch: { photos } } })
+    renderMainPhoto(photos); renderExtraPhotos(photos)
+    showAutosave('ok', '✓ Photo supprimée')
+  } catch (e) { showAutosave('err', '⚠ ' + e.message) }
+}
+
+// ─── AUTOSAVE ───
+const saveTimers = {}
+document.querySelectorAll('[data-fld]').forEach(el => {
+  el.addEventListener('input', () => {
+    if (el.dataset.fld === 'description') updateDescCount()
+    const fld = el.dataset.fld
+    clearTimeout(saveTimers[fld])
+    showAutosave('', '⏳ …')
+    saveTimers[fld] = setTimeout(async () => {
+      try { await api('/api/save-draft', { body: { fiche_id: f.id, patch: { [fld]: el.value } } }); showAutosave('ok', '✓ Enregistré') }
+      catch (e) { showAutosave('err', '⚠ ' + e.message) }
+    }, 800)
+  })
+})
+function updateDescCount() {
+  const el = document.querySelector('[data-fld=description]')
+  if (el) document.getElementById('descCount').textContent = `${el.value.length} / 300`
+}
+function showAutosave(kind, msg) {
+  const el = document.getElementById('autosave')
+  el.textContent = msg
+  el.className = 'autosave show ' + (kind || '')
+  clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('show'), 2500)
+}
+
+// ─── PUBLIER ───
+async function goPremium() {
+  try {
+    const r = await api('/api/create-checkout-session', { body: { plan: 'annuel', fiche_ids: [f.id] } })
+    if (r.url) location.href = r.url
+  } catch (e) { alert('Erreur : ' + e.message) }
+}
+document.getElementById('publishBtnTop').addEventListener('click', goPremium)
+document.getElementById('publishBtnBottom').addEventListener('click', goPremium)
+</script>
+
+</body></html>

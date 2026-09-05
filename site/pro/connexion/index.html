@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Connexion · placedupermis.fr</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23132a5c'/%3E%3Crect x='6' y='19' width='20' height='7' rx='2' fill='%23c6f432'/%3E%3Ctext x='16' y='15' font-family='system-ui' font-size='12' font-weight='800' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/pro/assets/style.css">
+<style>
+body{background:linear-gradient(175deg,var(--bg) 0%,var(--blue-bg) 100%);min-height:100vh}
+.auth-wrap{max-width:460px;margin:60px auto;padding:0 20px}
+.auth-card{background:#fff;border:1.5px solid var(--line);border-radius:20px;padding:36px 32px;box-shadow:0 20px 40px -20px rgba(19,42,92,.15)}
+.auth-logo{text-align:center;margin-bottom:22px}
+.auth-logo a{font-weight:900;font-size:1.35rem;color:var(--navy);text-decoration:none;letter-spacing:-.02em}
+.auth-logo a em{font-style:normal;background:var(--volt);border-radius:6px;padding:1px 6px;margin-left:2px;color:var(--volt-ink)}
+.auth-card h1{margin:0 0 8px;font-size:1.5rem;text-align:center}
+.auth-card .sub{color:var(--ink2);text-align:center;font-size:.92rem;margin:0 0 22px}
+.auth-card label{display:block;font-weight:650;font-size:.85rem;margin-bottom:6px;color:var(--ink)}
+.auth-card input[type=email]{width:100%;padding:14px 16px;border:1.5px solid var(--line);border-radius:12px;font-size:1rem;font-family:inherit;color:var(--ink);background:#fff;transition:all .1s}
+.auth-card input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-bg)}
+.auth-card .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--navy);color:#fff;padding:14px;border:none;border-radius:12px;font-weight:700;font-size:1rem;cursor:pointer;font-family:inherit;margin-top:14px;transition:opacity .15s}
+.auth-card .btn:hover{background:#1e3d84}
+.auth-card .btn:disabled{opacity:.5;cursor:wait}
+.help-box{background:#fbfcfe;border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:.85rem;color:var(--ink2);margin-top:18px;line-height:1.55}
+.help-box b{color:var(--ink)}
+.help-box.err{background:#fff5f5;border-color:#f5c9c9;color:#a12530}
+.foot{text-align:center;margin-top:22px;font-size:.82rem;color:var(--muted)}
+.foot a{color:var(--blue);text-decoration:none}
+.sent-icon{width:64px;height:64px;background:var(--volt);color:var(--volt-ink);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:2rem}
+.email-display{background:var(--blue-bg);color:var(--navy);padding:8px 14px;border-radius:8px;font-weight:700;display:inline-block;margin:6px 0;word-break:break-all}
+.hidden{display:none}
+</style>
+</head><body>
+
+<div class="auth-wrap">
+<div class="auth-logo"><a href="/">place du<em>permis</em></a></div>
+
+<!-- ÉCRAN 1 : formulaire -->
+<div class="auth-card" id="s1">
+<h1>Se connecter</h1>
+<p class="sub">Entrez votre email — on vous envoie un lien de connexion sécurisé.</p>
+
+<form id="frm">
+<label for="email">Votre adresse email</label>
+<input type="email" id="email" placeholder="contact@sam-formations.com" required autofocus>
+<button class="btn" type="submit" id="submitBtn">Recevoir mon lien de connexion →</button>
+</form>
+
+<div class="help-box hidden" id="errBox"></div>
+
+<div class="help-box">
+<b>🔐 Pas de mot de passe.</b> Nous n'utilisons que des liens de connexion à usage unique envoyés par email : plus sûr qu'un mot de passe, et vous n'avez rien à retenir.
+</div>
+
+<p class="foot">
+Première fois ? Entrez simplement votre email — <a href="/pro/">votre compte se crée automatiquement</a>.
+</p>
+</div>
+
+<!-- ÉCRAN 2 : lien envoyé -->
+<div class="auth-card hidden" id="s2">
+<div class="sent-icon">📬</div>
+<h1 style="text-align:center">Lien envoyé !</h1>
+<p class="sub">Vérifiez la boîte de réception de<br><span class="email-display" id="sentTo"></span></p>
+
+<div class="help-box" style="text-align:center">
+Cliquez sur le lien reçu pour vous connecter.<br>
+Le lien reste valable <b>30 minutes</b>.
+</div>
+
+<p class="foot" style="margin-top:26px">
+Pas de mail reçu ? Vérifiez vos spams, ou <a href="#" onclick="location.reload();return false">recommencez avec une autre adresse</a>.
+</p>
+</div>
+
+<p style="text-align:center;font-size:.78rem;color:var(--muted);margin-top:24px">
+Une question ? <a href="mailto:contact@placedupermis.fr" style="color:var(--blue);text-decoration:none">contact@placedupermis.fr</a>
+</p>
+</div>
+
+<script type="module">
+import '/pro/assets/pdp-pro.js'
+
+// Si déjà connecté, rediriger vers l'espace (ou vers la page demandée)
+const returnTo = new URLSearchParams(location.search).get('return') || '/pro/mon-espace/'
+const { data: { session } } = await window.pdp.sb.auth.getSession()
+if (session) location.replace(returnTo)
+
+const frm = document.getElementById('frm')
+const emailIn = document.getElementById('email')
+const btn = document.getElementById('submitBtn')
+const errBox = document.getElementById('errBox')
+
+frm.addEventListener('submit', async (e) => {
+  e.preventDefault()
+  const email = emailIn.value.trim().toLowerCase()
+  if (!email) return
+  btn.disabled = true
+  btn.textContent = 'Envoi…'
+  errBox.classList.add('hidden')
+
+  const { error } = await window.pdp.sb.auth.signInWithOtp({
+    email,
+    options: {
+      shouldCreateUser: true,
+      emailRedirectTo: `${location.origin}/pro/callback/?return=${encodeURIComponent(returnTo)}`,
+    },
+  })
+
+  if (error) {
+    errBox.textContent = 'Erreur : ' + error.message
+    errBox.classList.remove('hidden')
+    btn.disabled = false
+    btn.textContent = 'Réessayer'
+    return
+  }
+
+  document.getElementById('sentTo').textContent = email
+  document.getElementById('s1').classList.add('hidden')
+  document.getElementById('s2').classList.remove('hidden')
+})
+</script>
+
+</body></html>

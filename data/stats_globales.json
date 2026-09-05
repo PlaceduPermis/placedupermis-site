@@ -1,0 +1,522 @@
+{
+ "01": {
+  "n_schools": 111,
+  "b_candidats": 9563,
+  "b_taux_moyen": 0.7137
+ },
+ "02": {
+  "n_schools": 99,
+  "b_candidats": 7536,
+  "b_taux_moyen": 0.6529
+ },
+ "02A": {
+  "n_schools": 25,
+  "b_candidats": 1790,
+  "b_taux_moyen": 0.6274
+ },
+ "02B": {
+  "n_schools": 33,
+  "b_candidats": 2564,
+  "b_taux_moyen": 0.6622
+ },
+ "03": {
+  "n_schools": 50,
+  "b_candidats": 4520,
+  "b_taux_moyen": 0.717
+ },
+ "04": {
+  "n_schools": 27,
+  "b_candidats": 2469,
+  "b_taux_moyen": 0.6517
+ },
+ "05": {
+  "n_schools": 22,
+  "b_candidats": 1855,
+  "b_taux_moyen": 0.7116
+ },
+ "06": {
+  "n_schools": 152,
+  "b_candidats": 15682,
+  "b_taux_moyen": 0.5986
+ },
+ "07": {
+  "n_schools": 53,
+  "b_candidats": 4081,
+  "b_taux_moyen": 0.6298
+ },
+ "08": {
+  "n_schools": 46,
+  "b_candidats": 3262,
+  "b_taux_moyen": 0.6419
+ },
+ "09": {
+  "n_schools": 21,
+  "b_candidats": 2079,
+  "b_taux_moyen": 0.5743
+ },
+ "10": {
+  "n_schools": 56,
+  "b_candidats": 4212,
+  "b_taux_moyen": 0.5548
+ },
+ "11": {
+  "n_schools": 46,
+  "b_candidats": 4905,
+  "b_taux_moyen": 0.5629
+ },
+ "12": {
+  "n_schools": 52,
+  "b_candidats": 3438,
+  "b_taux_moyen": 0.5948
+ },
+ "13": {
+  "n_schools": 309,
+  "b_candidats": 29813,
+  "b_taux_moyen": 0.5532
+ },
+ "14": {
+  "n_schools": 120,
+  "b_candidats": 10323,
+  "b_taux_moyen": 0.5514
+ },
+ "15": {
+  "n_schools": 24,
+  "b_candidats": 1611,
+  "b_taux_moyen": 0.6698
+ },
+ "16": {
+  "n_schools": 73,
+  "b_candidats": 4807,
+  "b_taux_moyen": 0.6709
+ },
+ "17": {
+  "n_schools": 122,
+  "b_candidats": 8822,
+  "b_taux_moyen": 0.6407
+ },
+ "18": {
+  "n_schools": 46,
+  "b_candidats": 3784,
+  "b_taux_moyen": 0.6485
+ },
+ "19": {
+  "n_schools": 49,
+  "b_candidats": 3368,
+  "b_taux_moyen": 0.6024
+ },
+ "21": {
+  "n_schools": 85,
+  "b_candidats": 6725,
+  "b_taux_moyen": 0.6342
+ },
+ "22": {
+  "n_schools": 100,
+  "b_candidats": 7794,
+  "b_taux_moyen": 0.6283
+ },
+ "23": {
+  "n_schools": 22,
+  "b_candidats": 987,
+  "b_taux_moyen": 0.5957
+ },
+ "24": {
+  "n_schools": 64,
+  "b_candidats": 4237,
+  "b_taux_moyen": 0.6236
+ },
+ "25": {
+  "n_schools": 93,
+  "b_candidats": 8001,
+  "b_taux_moyen": 0.6703
+ },
+ "26": {
+  "n_schools": 86,
+  "b_candidats": 8073,
+  "b_taux_moyen": 0.6523
+ },
+ "27": {
+  "n_schools": 105,
+  "b_candidats": 8820,
+  "b_taux_moyen": 0.6644
+ },
+ "28": {
+  "n_schools": 79,
+  "b_candidats": 8190,
+  "b_taux_moyen": 0.6099
+ },
+ "29": {
+  "n_schools": 186,
+  "b_candidats": 12680,
+  "b_taux_moyen": 0.6216
+ },
+ "30": {
+  "n_schools": 116,
+  "b_candidats": 10584,
+  "b_taux_moyen": 0.6726
+ },
+ "31": {
+  "n_schools": 176,
+  "b_candidats": 21163,
+  "b_taux_moyen": 0.5931
+ },
+ "32": {
+  "n_schools": 37,
+  "b_candidats": 2697,
+  "b_taux_moyen": 0.7145
+ },
+ "33": {
+  "n_schools": 220,
+  "b_candidats": 23946,
+  "b_taux_moyen": 0.6376
+ },
+ "34": {
+  "n_schools": 187,
+  "b_candidats": 17832,
+  "b_taux_moyen": 0.5555
+ },
+ "35": {
+  "n_schools": 189,
+  "b_candidats": 16402,
+  "b_taux_moyen": 0.6714
+ },
+ "36": {
+  "n_schools": 38,
+  "b_candidats": 3197,
+  "b_taux_moyen": 0.6334
+ },
+ "37": {
+  "n_schools": 95,
+  "b_candidats": 8249,
+  "b_taux_moyen": 0.6527
+ },
+ "38": {
+  "n_schools": 182,
+  "b_candidats": 19212,
+  "b_taux_moyen": 0.619
+ },
+ "39": {
+  "n_schools": 46,
+  "b_candidats": 3529,
+  "b_taux_moyen": 0.6636
+ },
+ "40": {
+  "n_schools": 80,
+  "b_candidats": 4908,
+  "b_taux_moyen": 0.6771
+ },
+ "41": {
+  "n_schools": 65,
+  "b_candidats": 4532,
+  "b_taux_moyen": 0.6935
+ },
+ "42": {
+  "n_schools": 149,
+  "b_candidats": 11383,
+  "b_taux_moyen": 0.6132
+ },
+ "43": {
+  "n_schools": 56,
+  "b_candidats": 3191,
+  "b_taux_moyen": 0.7289
+ },
+ "44": {
+  "n_schools": 192,
+  "b_candidats": 21348,
+  "b_taux_moyen": 0.6701
+ },
+ "45": {
+  "n_schools": 105,
+  "b_candidats": 9887,
+  "b_taux_moyen": 0.6361
+ },
+ "46": {
+  "n_schools": 21,
+  "b_candidats": 1947,
+  "b_taux_moyen": 0.5598
+ },
+ "47": {
+  "n_schools": 58,
+  "b_candidats": 4236,
+  "b_taux_moyen": 0.6438
+ },
+ "48": {
+  "n_schools": 16,
+  "b_candidats": 1016,
+  "b_taux_moyen": 0.7992
+ },
+ "49": {
+  "n_schools": 169,
+  "b_candidats": 12294,
+  "b_taux_moyen": 0.6864
+ },
+ "50": {
+  "n_schools": 107,
+  "b_candidats": 6688,
+  "b_taux_moyen": 0.6793
+ },
+ "51": {
+  "n_schools": 110,
+  "b_candidats": 8095,
+  "b_taux_moyen": 0.5634
+ },
+ "52": {
+  "n_schools": 35,
+  "b_candidats": 2364,
+  "b_taux_moyen": 0.5584
+ },
+ "53": {
+  "n_schools": 72,
+  "b_candidats": 4065,
+  "b_taux_moyen": 0.5951
+ },
+ "54": {
+  "n_schools": 122,
+  "b_candidats": 10700,
+  "b_taux_moyen": 0.5677
+ },
+ "55": {
+  "n_schools": 33,
+  "b_candidats": 2326,
+  "b_taux_moyen": 0.5795
+ },
+ "56": {
+  "n_schools": 158,
+  "b_candidats": 10384,
+  "b_taux_moyen": 0.6784
+ },
+ "57": {
+  "n_schools": 167,
+  "b_candidats": 13969,
+  "b_taux_moyen": 0.5898
+ },
+ "58": {
+  "n_schools": 35,
+  "b_candidats": 2326,
+  "b_taux_moyen": 0.58
+ },
+ "59": {
+  "n_schools": 418,
+  "b_candidats": 38577,
+  "b_taux_moyen": 0.5866
+ },
+ "60": {
+  "n_schools": 144,
+  "b_candidats": 12540,
+  "b_taux_moyen": 0.5743
+ },
+ "61": {
+  "n_schools": 60,
+  "b_candidats": 3815,
+  "b_taux_moyen": 0.6967
+ },
+ "62": {
+  "n_schools": 277,
+  "b_candidats": 20429,
+  "b_taux_moyen": 0.5908
+ },
+ "63": {
+  "n_schools": 115,
+  "b_candidats": 8192,
+  "b_taux_moyen": 0.6494
+ },
+ "64": {
+  "n_schools": 122,
+  "b_candidats": 9729,
+  "b_taux_moyen": 0.6511
+ },
+ "65": {
+  "n_schools": 54,
+  "b_candidats": 3386,
+  "b_taux_moyen": 0.58
+ },
+ "66": {
+  "n_schools": 82,
+  "b_candidats": 6980,
+  "b_taux_moyen": 0.5787
+ },
+ "67": {
+  "n_schools": 179,
+  "b_candidats": 15511,
+  "b_taux_moyen": 0.6127
+ },
+ "68": {
+  "n_schools": 137,
+  "b_candidats": 11349,
+  "b_taux_moyen": 0.6327
+ },
+ "69": {
+  "n_schools": 288,
+  "b_candidats": 26676,
+  "b_taux_moyen": 0.5626
+ },
+ "70": {
+  "n_schools": 36,
+  "b_candidats": 3078,
+  "b_taux_moyen": 0.6153
+ },
+ "71": {
+  "n_schools": 98,
+  "b_candidats": 6654,
+  "b_taux_moyen": 0.5577
+ },
+ "72": {
+  "n_schools": 108,
+  "b_candidats": 8707,
+  "b_taux_moyen": 0.6429
+ },
+ "73": {
+  "n_schools": 70,
+  "b_candidats": 6006,
+  "b_taux_moyen": 0.6265
+ },
+ "74": {
+  "n_schools": 96,
+  "b_candidats": 10498,
+  "b_taux_moyen": 0.6094
+ },
+ "75": {
+  "n_schools": 217,
+  "b_candidats": 26985,
+  "b_taux_moyen": 0.5058
+ },
+ "76": {
+  "n_schools": 215,
+  "b_candidats": 20309,
+  "b_taux_moyen": 0.6187
+ },
+ "77": {
+  "n_schools": 286,
+  "b_candidats": 23007,
+  "b_taux_moyen": 0.6155
+ },
+ "78": {
+  "n_schools": 206,
+  "b_candidats": 20229,
+  "b_taux_moyen": 0.5614
+ },
+ "79": {
+  "n_schools": 81,
+  "b_candidats": 5793,
+  "b_taux_moyen": 0.7272
+ },
+ "80": {
+  "n_schools": 95,
+  "b_candidats": 8199,
+  "b_taux_moyen": 0.6084
+ },
+ "81": {
+  "n_schools": 73,
+  "b_candidats": 5365,
+  "b_taux_moyen": 0.6216
+ },
+ "82": {
+  "n_schools": 42,
+  "b_candidats": 3495,
+  "b_taux_moyen": 0.5714
+ },
+ "83": {
+  "n_schools": 163,
+  "b_candidats": 15500,
+  "b_taux_moyen": 0.6074
+ },
+ "84": {
+  "n_schools": 108,
+  "b_candidats": 7541,
+  "b_taux_moyen": 0.5269
+ },
+ "85": {
+  "n_schools": 161,
+  "b_candidats": 11199,
+  "b_taux_moyen": 0.7115
+ },
+ "86": {
+  "n_schools": 75,
+  "b_candidats": 6072,
+  "b_taux_moyen": 0.6153
+ },
+ "87": {
+  "n_schools": 76,
+  "b_candidats": 4697,
+  "b_taux_moyen": 0.6259
+ },
+ "88": {
+  "n_schools": 77,
+  "b_candidats": 5025,
+  "b_taux_moyen": 0.6149
+ },
+ "89": {
+  "n_schools": 56,
+  "b_candidats": 3689,
+  "b_taux_moyen": 0.5516
+ },
+ "90": {
+  "n_schools": 25,
+  "b_candidats": 1977,
+  "b_taux_moyen": 0.5979
+ },
+ "91": {
+  "n_schools": 217,
+  "b_candidats": 22245,
+  "b_taux_moyen": 0.529
+ },
+ "92": {
+  "n_schools": 200,
+  "b_candidats": 19205,
+  "b_taux_moyen": 0.5868
+ },
+ "93": {
+  "n_schools": 319,
+  "b_candidats": 29144,
+  "b_taux_moyen": 0.5918
+ },
+ "94": {
+  "n_schools": 189,
+  "b_candidats": 20365,
+  "b_taux_moyen": 0.536
+ },
+ "95": {
+  "n_schools": 225,
+  "b_candidats": 24233,
+  "b_taux_moyen": 0.5436
+ },
+ "971": {
+  "n_schools": 142,
+  "b_candidats": 5495,
+  "b_taux_moyen": 0.3616
+ },
+ "972": {
+  "n_schools": 98,
+  "b_candidats": 4023,
+  "b_taux_moyen": 0.4745
+ },
+ "973": {
+  "n_schools": 55,
+  "b_candidats": 3491,
+  "b_taux_moyen": 0.4623
+ },
+ "974": {
+  "n_schools": 238,
+  "b_candidats": 13914,
+  "b_taux_moyen": 0.521
+ },
+ "975": {
+  "n_schools": 4,
+  "b_candidats": 0,
+  "b_taux_moyen": null
+ },
+ "976": {
+  "n_schools": 44,
+  "b_candidats": 1858,
+  "b_taux_moyen": 0.5549
+ },
+ "977": {
+  "n_schools": 4,
+  "b_candidats": 0,
+  "b_taux_moyen": null
+ },
+ "98": {
+  "n_schools": 4,
+  "b_candidats": 210,
+  "b_taux_moyen": 0.4762
+ }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "placedupermis",
+  "version": "1.0.0",
+  "private": true,
+  "description": "placedupermis.fr — comparateur d'auto-écoles + espace pro (revendication de fiche)",
+  "engines": {
+    "node": ">=20"
+  },
+  "type": "module",
+  "scripts": {
+    "import-fiches": "node backend/scripts/import-fiches.js",
+    "import-emails": "node backend/scripts/import-emails.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "stripe": "^17.3.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5",
+    "xlsx": "^0.18.5"
+  }
+}
