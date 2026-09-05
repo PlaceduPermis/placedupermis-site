@@ -9,6 +9,19 @@ import { stripe } from '../../backend/lib/stripe.js'
 import { supabase } from '../../backend/lib/supabase.js'
 import { sendMail } from '../../backend/lib/email.js'
 
+// Déclenche un rebuild Netlify (fiche Premium apparaît/disparaît publiquement).
+// Silencieux si NETLIFY_BUILD_HOOK_URL absent (dev local).
+async function triggerRebuild(reason) {
+  const url = process.env.NETLIFY_BUILD_HOOK_URL
+  if (!url) return
+  try {
+    await fetch(url, { method: 'POST' })
+    console.log('rebuild triggered:', reason)
+  } catch (e) {
+    console.error('rebuild trigger failed:', e.message)
+  }
+}
+
 // Netlify passe le body en base64 quand `isBase64Encoded=true`. Il faut le buffer brut.
 function rawBody(event) {
   return event.isBase64Encoded ? Buffer.from(event.body, 'base64') : event.body
@@ -100,6 +113,9 @@ async function onCheckoutComplete(session) {
       html: `<p>Merci ! Votre abonnement est actif pour ${fiche_ids.length} fiche(s). Voir ma fiche : ${process.env.SITE_URL}/</p>`,
     }).catch(e => console.error('email confirm error', e))
   }
+
+  // Rebuild : la (les) fiche(s) devient(nent) Premium publiquement
+  await triggerRebuild(`checkout ${fiche_ids.length} fiche(s)`)
 }
 
 async function onSubUpdated(sub) {
@@ -122,6 +138,8 @@ async function onSubDeleted(sub) {
     await supabase.from('publications').update({ is_current: false })
       .eq('fiche_id', subRow.fiche_id).eq('is_current', true)
   }
+  // Rebuild : la fiche redevient socle publiquement
+  await triggerRebuild(`sub deleted ${sub.id}`)
 }
 
 async function onInvoicePaid(inv) {
