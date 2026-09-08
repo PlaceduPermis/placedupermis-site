@@ -2372,7 +2372,8 @@ if(!qp||norm(qp).length<2){
 <li><b>Bouton WhatsApp</b> pour une conversation instantanée depuis mobile ou desktop</li>
 <li><b>Galerie</b> jusqu'à 10 photos (locaux, flotte, équipe, simulateur) + description longue + mot du gérant</li>
 <li><b>Bandeau offre commerciale</b> daté (rentrée, promo été, code AAC offert…), modifiable en 3 clics</li>
-<li>Modifications publiées sous 24 h · résiliation en 1 clic · support par email en 24 h ouvrées</li>"""
+<li>Modifications publiées sous 24 h · résiliation en 1 clic · support par email en 24 h ouvrées</li>
+<li><b>14 jours pour changer d'avis</b>, remboursement intégral sans justification</li>"""
 
     free_card = f"""<div class="ptier">
 <span class="pbadge free">Par défaut</span>
@@ -2635,9 +2636,9 @@ if(!qp||norm(qp).length<2){
 <p>La résiliation s'effectue <b>en un clic depuis l'espace professionnel</b>, à tout moment et sans frais. Elle prend effet à l'échéance de la période en cours : l'accès et la publication sont maintenus jusqu'à cette date, aucun nouveau prélèvement n'est effectué ensuite. Aucun remboursement au prorata n'est dû pour la période déjà réglée.</p>
 <p>À l'expiration, la fiche revient à sa version socle gratuite (données officielles seules). Le contenu saisi est conservé pendant 6 mois et redevient immédiatement publiable en cas de réabonnement.</p>
 
-<h2>6. Droit de rétractation</h2>
-<p>L'abonnement est souscrit par un professionnel pour les besoins de son activité : le droit de rétractation du Code de la consommation n'a pas vocation à s'appliquer.</p>
-<p>Par exception, conformément à l'article L.&nbsp;221-3 du Code de la consommation, un professionnel employant <b>cinq salariés ou moins</b> et dont l'objet du contrat n'entre pas dans le champ de son activité principale dispose d'un délai de rétractation de <b>quatorze jours</b> à compter de la souscription. Pour l'exercer, il suffit d'écrire à <a href="mailto:contact@placedupermis.fr">contact@placedupermis.fr</a> ; le remboursement intervient sous quatorze jours par le moyen de paiement d'origine.</p>
+<h2>6. Droit de rétractation — 14 jours</h2>
+<p>Vous disposez d'un délai de <b>quatorze jours</b> à compter de la souscription pour vous rétracter, <b>sans avoir à motiver votre décision et sans pénalité</b>. Ce délai est accordé à toute auto-école abonnée, quelle que soit sa taille — il va au-delà de ce qu'impose l'article L.&nbsp;221-3 du Code de la consommation, qui ne le prévoit que pour les professionnels employant cinq salariés ou moins.</p>
+<p>Pour l'exercer, écrivez simplement à <a href="mailto:contact@placedupermis.fr">contact@placedupermis.fr</a> : aucun formulaire, aucune justification. Le remboursement intégral intervient sous quatorze jours par le moyen de paiement d'origine, et la fiche revient à sa version socle.</p>
 
 <h2>7. Obligations de l'abonné</h2>
 <p>L'abonné garantit être le responsable légal de l'établissement dont il complète la fiche, et détenir les droits sur les contenus qu'il publie (photographies notamment). Il s'engage à publier des informations exactes et à jour, en particulier ses tarifs.</p>
