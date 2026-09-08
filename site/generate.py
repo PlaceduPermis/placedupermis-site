@@ -11,6 +11,9 @@ tables sémantiques + JSON-LD), footer complet, pages éditoriales réelles.
 import bisect, json, math, os, re, unicodedata, urllib.request, urllib.error, urllib.parse
 from pathlib import Path
 from collections import defaultdict
+from datetime import date
+
+TODAY_ISO = date.today().isoformat()   # affiché en bas des pages légales
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -315,9 +318,11 @@ h1 em{font-style:normal;color:var(--blue)}
 .kpi b{display:block;font-size:1.12rem;color:var(--navy);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 .kpi b.v{color:var(--blue)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0}
-.pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:14px 0;align-items:start}
+.pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:14px 0;align-items:stretch}
 @media(max-width:820px){.pricing{grid-template-columns:1fr}}
 .ptier{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:22px 20px;display:flex;flex-direction:column}
+.ptier ul{flex:1}
+.ptier .pfoot{margin-top:auto}
 .ptier.featured{border-color:var(--blue);box-shadow:0 10px 32px rgba(36,82,224,.16);transform:scale(1.02)}
 @media(max-width:820px){.ptier.featured{transform:none}}
 .ptier .pbadge{align-self:flex-start;font-size:.66rem;font-weight:800;border-radius:999px;padding:3px 11px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
@@ -327,7 +332,8 @@ h1 em{font-style:normal;color:var(--blue)}
 .ptier .pname{font-weight:800;font-size:1.02rem;letter-spacing:-.01em}
 .ptier .pprice{font-size:2rem;font-weight:900;letter-spacing:-.03em;margin-top:8px;color:var(--navy)}
 .ptier .pprice small{font-size:.5em;font-weight:700;color:var(--muted);letter-spacing:0}
-.ptier .pnote{font-size:.76rem;color:var(--muted);margin-top:4px;min-height:2.6em}
+.ptier .pnote{font-size:.76rem;color:var(--muted);margin-top:4px;min-height:2.6em;line-height:1.5}
+.ptier .pnote .tva{display:block;margin:3px 0;font-size:.95em}
 .ptier ul{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:11px;font-size:.85rem;color:var(--ink2)}
 .ptier ul li{padding-left:22px;position:relative;line-height:1.4}
 .ptier ul li:before{content:"✓";position:absolute;left:0;top:0;color:var(--ok);font-weight:800}
@@ -455,6 +461,27 @@ table.tbl-sort th.sort-desc:after{content:"↓";color:var(--blue)}
 .prem-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 @media(max-width:640px){.prem-gallery{grid-template-columns:repeat(2,1fr)}}
 .prem-photo{aspect-ratio:1;background-size:cover;background-position:center;border-radius:8px}
+
+/* Formulaire de devis (fiches Premium) */
+.lead-card{border-color:var(--blue);background:linear-gradient(180deg,#fff,var(--blue-bg))}
+.lead-sub{color:var(--ink2);font-size:.88rem;margin:0 0 16px;line-height:1.55}
+.lead-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+@media(max-width:640px){.lead-row{grid-template-columns:1fr}}
+.lead-card label{display:block;font-weight:650;font-size:.82rem;color:var(--ink);margin-bottom:5px}
+.lead-card label .opt{color:var(--muted);font-weight:500}
+.lead-card input[type=text],.lead-card input[type=email],.lead-card input[type=tel]{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;font-family:inherit;font-size:.92rem;color:var(--ink);background:#fff}
+.lead-card input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(36,82,224,.14)}
+.lead-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.lead-card button{background:var(--navy);color:#fff;border:none;padding:13px 26px;border-radius:11px;font-weight:800;font-size:.95rem;cursor:pointer;font-family:inherit;margin-top:4px}
+.lead-card button:hover{background:#1e3d84}
+.lead-card button:disabled{opacity:.5;cursor:not-allowed}
+.lead-card input:disabled{background:#f5f6f9;color:var(--ink2);cursor:not-allowed}
+.lead-legal{font-size:.76rem;color:var(--muted);margin:12px 0 0;line-height:1.5}
+.lead-done{text-align:center;padding:26px 20px}
+.lead-done b{display:block;font-size:1.1rem;color:var(--ok);margin-bottom:6px}
+.lead-done p{color:var(--ink2);font-size:.9rem;margin:0}
+.prem-hero-photo.demo-photo{display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#dfe6f4,#eef2fd)}
+.prem-hero-photo.demo-photo span{color:var(--muted);font-size:.9rem;font-weight:650;letter-spacing:.02em}
 details{border-top:1px solid var(--line);padding:10px 0}
 details summary{cursor:pointer;font-weight:650;font-size:.91rem}
 details p{color:var(--ink2);font-size:.87rem;margin-top:8px;max-width:720px}
@@ -545,11 +572,12 @@ FOOTER = f"""<footer>
 <div><h4>Auto-écoles</h4><ul>
 <li><a href="/pro/mon-espace/">Mon espace pro</a></li>
 <li><a href="/pro/">Offre Premium 108 €/an</a></li>
+<li><a href="/cgv/">Conditions de l'offre</a></li>
 <li><a href="/contact/">Signaler une erreur</a></li></ul></div>
 </div>
 <div class="base">
 <span>© 2026 placedupermis.fr — les taux se lisent avec le volume de candidats ; ils ne résument pas la qualité pédagogique d'un établissement.</span>
-<span><a href="/a-propos/">À propos</a> · <a href="/mentions/">Mentions légales</a> · <a href="/cgu/">CGU</a> · <a href="/confidentialite/">Confidentialité</a></span>
+<span><a href="/a-propos/">À propos</a> · <a href="/mentions/">Mentions légales</a> · <a href="/cgu/">CGU</a> · <a href="/cgv/">CGV</a> · <a href="/confidentialite/">Confidentialité</a></span>
 </div>
 </footer>"""
 
@@ -750,7 +778,55 @@ def render_premium_gallery(pub):
     imgs = "".join(f'<div class="prem-photo" style="background-image:url({json.dumps(u)})"></div>' for u in extras)
     return f'<div class="card"><h2>📸 Galerie photos</h2><div class="prem-gallery">{imgs}</div></div>'
 
-def render_premium_all(pub, fallback_web=None):
+def render_premium_lead_form(pub, fiche_id, fiche_name):
+    # Le formulaire n'a de sens que si une adresse peut recevoir les demandes.
+    if not (pub.get("contact_email") or "").strip():
+        return ""
+    return f'''<div class="card lead-card" id="leadCard">
+<h2>Demander un devis à {esc(fiche_name)}</h2>
+<p class="lead-sub">Votre demande arrive directement dans la boîte mail de l'auto-école. Réponse sous quelques jours ouvrés.</p>
+<form id="leadForm" novalidate>
+<div class="lead-row">
+<div><label for="ld-name">Votre nom *</label><input id="ld-name" name="name" type="text" required maxlength="120" autocomplete="name"></div>
+<div><label for="ld-email">Votre email *</label><input id="ld-email" name="email" type="email" required maxlength="180" autocomplete="email"></div>
+</div>
+<div class="lead-row">
+<div><label for="ld-phone">Téléphone <span class="opt">(facultatif)</span></label><input id="ld-phone" name="phone" type="tel" maxlength="30" autocomplete="tel"></div>
+<div><label for="ld-msg">Votre demande <span class="opt">(facultatif)</span></label><input id="ld-msg" name="message" type="text" maxlength="2000" placeholder="Permis B en conduite accompagnée, budget…"></div>
+</div>
+<div class="lead-hp" aria-hidden="true"><label>Ne pas remplir<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+<button type="submit" id="ld-submit">Envoyer ma demande</button>
+<p class="lead-legal">En envoyant ce formulaire, vos coordonnées sont transmises à cette auto-école pour qu'elle vous recontacte. Voir notre <a href="/confidentialite/">politique de confidentialité</a>.</p>
+</form>
+<div class="lead-done" id="leadDone" hidden><b>✓ Demande envoyée</b><p>L'auto-école a reçu vos coordonnées et vous recontactera directement.</p></div>
+</div>
+<script>
+(function(){{
+ var f=document.getElementById('leadForm'); if(!f) return;
+ var btn=document.getElementById('ld-submit');
+ f.addEventListener('submit',function(e){{
+  e.preventDefault();
+  var fd=new FormData(f);
+  var name=(fd.get('name')||'').trim(), email=(fd.get('email')||'').trim();
+  if(!name||!email||!/^[^@\\s]+@[^@\\s]+\\.[^@\\s]{{2,}}$/.test(email)){{
+   btn.textContent='Nom et email valides requis'; setTimeout(function(){{btn.textContent='Envoyer ma demande';}},2500); return;
+  }}
+  btn.disabled=true; btn.textContent='Envoi…';
+  fetch('/api/send-lead',{{method:'POST',headers:{{'content-type':'application/json'}},body:JSON.stringify({{
+   fiche_id:{json.dumps(fiche_id)}, name:name, email:email,
+   phone:(fd.get('phone')||'').trim(), message:(fd.get('message')||'').trim(),
+   website:(fd.get('website')||'')
+  }})}}).then(function(r){{
+   if(!r.ok) throw new Error();
+   f.hidden=true; document.getElementById('leadDone').hidden=false;
+  }}).catch(function(){{
+   btn.disabled=false; btn.textContent='Échec — réessayer';
+  }});
+ }});
+}})();
+</script>'''
+
+def render_premium_all(pub, fallback_web=None, fiche_id=None, fiche_name=""):
     """Retourne (offer_strip, hero_photo, main_html) — offer_strip et hero_photo doivent être insérés en haut du body."""
     offer = render_premium_offer_strip(pub)
     hero_photo = render_premium_hero_photo(pub)
@@ -760,7 +836,8 @@ def render_premium_all(pub, fallback_web=None):
     prices = render_premium_prices(pub)
     specs = render_premium_specs(pub)
     gallery = render_premium_gallery(pub)
-    main_html = f'{intro}{contact}{hours}{prices}{specs}{gallery}'
+    lead = render_premium_lead_form(pub, fiche_id, fiche_name) if fiche_id else ""
+    main_html = f'{intro}{prices}{lead}{contact}{hours}{specs}{gallery}'
     return offer, hero_photo, main_html
 
 # ----------------------------------------------------------------- main
@@ -1112,7 +1189,9 @@ def main():
         pub = premium.get(s["id"])
         prem_offer, prem_hero_photo, prem_main = ("", "", "")
         if pub:
-            prem_offer, prem_hero_photo, prem_main = render_premium_all(pub, fallback_web=s.get("contact", {}).get("website"))
+            prem_offer, prem_hero_photo, prem_main = render_premium_all(
+                pub, fallback_web=s.get("contact", {}).get("website"),
+                fiche_id=s["id"], fiche_name=disp(s["name"]))
             badges = '<span class="prem-verified">Profil vérifié</span>' + badges
             alts_render = ""              # on retire "à comparer 25 km" pour Premium
             claim_render = ""             # on retire "Vous êtes le gérant ?" pour Premium
@@ -2293,8 +2372,7 @@ if(!qp||norm(qp).length<2){
 <li><b>Bouton WhatsApp</b> pour une conversation instantanée depuis mobile ou desktop</li>
 <li><b>Galerie</b> jusqu'à 10 photos (locaux, flotte, équipe, simulateur) + description longue + mot du gérant</li>
 <li><b>Bandeau offre commerciale</b> daté (rentrée, promo été, code AAC offert…), modifiable en 3 clics</li>
-<li><b>Rapport mensuel</b> : nombre de vues, clics téléphone, demandes de devis reçues</li>
-<li>Modifications publiées en moins d'1 minute · résiliation en 1 clic · support par email en 24 h</li>"""
+<li>Modifications publiées sous 24 h · résiliation en 1 clic · support par email en 24 h ouvrées</li>"""
 
     free_card = f"""<div class="ptier">
 <span class="pbadge free">Par défaut</span>
@@ -2305,29 +2383,36 @@ if(!qp||norm(qp).length<2){
 <li>Vos <b>données officielles RAFAEL</b> — taux de réussite au permis B, historique depuis 2018, volume de candidats, agrément</li>
 <li>Votre <b>classement</b> ville / département / national + indice PlaceDuPermis /100</li>
 <li>Votre adresse et vos catégories de permis</li>
-<li>La possibilité pour les visiteurs de vous <a href="/contact/">signaler une erreur</a> si quelque chose vous concerne</li>
+<li class="no">Pas de tarifs, pas de photos, pas de contact direct</li>
+<li class="no">Bloc « à comparer à moins de 25 km » qui met vos voisines en avant sur votre propre page</li>
 </ul>
+<div class="pfoot">
 <p style="font-size:.8rem;color:var(--muted);text-align:center;margin:14px 0 0"><a href="/contact/" style="color:var(--muted)">Signaler une erreur sur ma fiche →</a></p>
+</div>
 </div>"""
 
     early_card = f"""<div class="ptier featured">
 <span class="pbadge launch">Offre de lancement</span>
 <div class="pname">Espace Premium</div>
 <div class="pprice">108&nbsp;€<small>/an</small></div>
-<div class="pnote">Soit <b>9&nbsp;€/mois</b>. Ou 12&nbsp;€/mois en paiement mensuel. Réservé aux <b>50 premières auto-écoles abonnées</b> ou jusqu'au 31 décembre 2026 (premier atteint).</div>
+<div class="pnote">Soit <b>9&nbsp;€/mois</b>. <span class="tva">TVA non applicable (art. 293 B du CGI) — le prix affiché est le prix payé.</span> Réservé aux <b>50 premières auto-écoles abonnées</b> ou jusqu'au 31 décembre 2026 (premier atteint).</div>
 <div id="eb-seats-line" class="pnote" style="margin-top:6px;color:var(--mid);font-weight:700;font-size:.85rem"></div>
 <ul>{premium_features}</ul>
+<div class="pfoot">
 <a class="hbtn" href="/pro/connexion/">Créer mon espace</a>
 <p style="font-size:.78rem;color:var(--muted);text-align:center;margin:8px 0 0">Vous pouvez tout remplir avant de payer — le paiement publie tout d'un coup.</p>
+</div>
 </div>""" if EARLY_BIRD_OPEN else ""
 
     late_card = f"""<div class="ptier{'' if EARLY_BIRD_OPEN else ' featured'}">
 <span class="pbadge std">Tarif standard</span>
 <div class="pname">Espace Premium</div>
 <div class="pprice">228&nbsp;€<small>/an</small></div>
-<div class="pnote">Soit <b>19&nbsp;€/mois</b>. Ou 25&nbsp;€/mois en paiement mensuel. {'S\'applique après le 31 décembre 2026 ou une fois les 50 places de lancement épuisées.' if EARLY_BIRD_OPEN else 'Prix par fiche.'}</div>
+<div class="pnote">Soit <b>19&nbsp;€/mois</b>. <span class="tva">TVA non applicable (art. 293 B du CGI).</span> {'S\'applique après le 31 décembre 2026 ou une fois les 50 places de lancement épuisées.' if EARLY_BIRD_OPEN else 'Prix par fiche.'}</div>
 <ul>{premium_features}</ul>
+<div class="pfoot">
 <a class="hbtn" href="/pro/connexion/">Créer mon espace</a>
+</div>
 </div>"""
 
     pro_inner = f"""<div class="kpis">
@@ -2342,6 +2427,16 @@ if(!qp||norm(qp).length<2){
 </div></div>
 
 <div class="pricing">{free_card}{early_card}{late_card}</div>
+
+<div class="card" style="border-color:var(--blue);background:linear-gradient(120deg,var(--blue-bg),#fff)">
+<div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+<div style="flex:1;min-width:260px">
+<h2 style="margin:0 0 4px">À quoi ressemble une fiche Premium ?</h2>
+<p style="color:var(--ink2);font-size:.9rem;margin:0">Plutôt qu'une liste d'arguments : voyez le résultat sur un exemple complet — tarifs, formulaire de devis, offre commerciale, et le bloc concurrents en moins.</p>
+</div>
+<a class="hbtn" href="/exemple-fiche-premium/" style="background:var(--blue);color:#fff;border-color:var(--blue);flex-shrink:0">Voir un exemple →</a>
+</div>
+</div>
 
 <div class="card"><div class="prose">
 <h2>Ce qui ne change jamais</h2>
@@ -2381,7 +2476,7 @@ if(!qp||norm(qp).length<2){
 }})()
 </script>"""
     static_page("pro", "Espace auto-écoles : passer votre fiche en Premium", "Espace auto-écoles",
-                "Ajoutez vos tarifs, votre formulaire de contact et votre offre commerciale sur votre fiche auto-école. À partir de 108 € TTC/an.",
+                "Ajoutez vos tarifs, votre formulaire de contact et votre offre commerciale sur votre fiche auto-école. À partir de 108 €/an, TVA non applicable.",
                 pro_inner)
 
     # /contact/, /mentions/, /confidentialite/
@@ -2391,26 +2486,220 @@ if(!qp||norm(qp).length<2){
 <p>Une donnée vous semble erronée ? Les données officielles proviennent du registre RAFAEL : si votre agrément, adresse ou taux est inexact, signalez-le aussi au bureau de l'éducation routière de votre département — et écrivez-nous pour correction de la fiche : <a href="mailto:contact@placedupermis.fr">contact@placedupermis.fr</a>.</p>
 </div></div>""")
     static_page("mentions", "Mentions légales", "Mentions légales",
-                "Éditeur, hébergement, données.",
-                """<div class="card"><div class="prose">
-<p><b>Éditeur :</b> Clair Raffour, entrepreneur individuel, 36 rue Dombasle, 75015 Paris — contact@placedupermis.fr. <b>Directeur de la publication :</b> Clair Raffour. <b>Hébergement :</b> Netlify, Inc., 512 2nd Street, San Francisco, CA 94107, USA.</p>
-<p><b>Données :</b> registre national RAFAEL via la Carte officielle des auto-écoles (ministère de l'Intérieur — Sécurité routière), Licence Ouverte 2.0 ; Base Adresse Nationale. Les marques et noms d'établissements cités appartiennent à leurs propriétaires.</p>
+                "Éditeur, hébergement, propriété intellectuelle et données.",
+                f"""<div class="card"><div class="prose">
+<h2>Éditeur du site</h2>
+<p>Le site placedupermis.fr est édité par :</p>
+<ul>
+<li>Clair Raffour, entrepreneur individuel (micro-entreprise)</li>
+<li>SIREN : 841&nbsp;584&nbsp;964</li>
+<li>Code APE : 63.12Z · immatriculé au RNE le 19/08/2026</li>
+<li>Siège : 36 rue Dombasle, 75015 Paris</li>
+<li>Contact : <a href="mailto:contact@placedupermis.fr">contact@placedupermis.fr</a></li>
+</ul>
+<p><b>Directeur de la publication :</b> Clair Raffour.</p>
+<p>TVA non applicable, article 293 B du Code général des impôts (franchise en base). Les montants indiqués sur le site sont des montants nets, sans TVA à ajouter.</p>
+
+<h2>Hébergeur</h2>
+<p>Le site est hébergé par :</p>
+<ul>
+<li>Netlify, Inc.</li>
+<li>512 2nd Street, Suite 200, San Francisco, CA 94107, États-Unis</li>
+<li><a href="https://www.netlify.com" rel="nofollow noopener" target="_blank">www.netlify.com</a></li>
+</ul>
+
+<h2>Propriété intellectuelle</h2>
+<p>La structure du site, les textes éditoriaux, le logo, la marque « placedupermis » et l'indice PlaceDuPermis (méthode de calcul et agrégats) sont la propriété de l'éditeur. Les données chiffrées proviennent de l'open data public — registre national RAFAEL via la Carte officielle des auto-écoles (ministère de l'Intérieur — Sécurité routière), Licence Ouverte 2.0, et Base Adresse Nationale — réutilisées avec mention de la source.</p>
+<p>placedupermis.fr est un site indépendant, non affilié au ministère de l'Intérieur, à la Sécurité routière, ni à aucune auto-école ou fédération professionnelle. Les marques et noms d'établissements cités appartiennent à leurs propriétaires respectifs.</p>
+
+<h2>Données personnelles</h2>
+<p>Le traitement des données personnelles (compte professionnel, contenu de fiche, demandes de devis, paiements) est décrit dans notre <a href="/confidentialite/">politique de confidentialité</a>.</p>
+
+<h2>Offre payante</h2>
+<p>Les conditions de l'abonnement Espace Premium destiné aux auto-écoles figurent dans nos <a href="/cgv/">conditions générales de vente</a>.</p>
+
+<h2>Contact</h2>
+<p>Pour toute question, réclamation ou signalement d'erreur : <a href="mailto:contact@placedupermis.fr">contact@placedupermis.fr</a>.</p>
+<p class="sub" style="margin-top:18px">Page mise à jour le {TODAY_ISO}.</p>
 </div></div>""")
     static_page("cgu", "Conditions générales d'utilisation", "Conditions générales d'utilisation",
                 "Les règles d'utilisation du site placedupermis.fr.",
-                """<div class="card"><div class="prose">
+                f"""<div class="card"><div class="prose">
 <p><b>1. Objet.</b> placedupermis.fr est un service gratuit de comparaison des auto-écoles françaises, fondé sur des données publiques (registre national RAFAEL, Licence Ouverte 2.0). L'utilisation du site vaut acceptation des présentes conditions.</p>
 <p><b>2. Nature des informations.</b> Les taux de réussite, agréments et volumes proviennent de l'administration et sont republiés sans modification. Ils constituent une information indicative et non un conseil : un taux se lit avec le volume de candidats et ne résume pas la qualité pédagogique d'un établissement. Le site ne garantit ni l'exhaustivité ni l'absence d'erreur dans les données sources, et n'est pas responsable des décisions prises sur leur fondement.</p>
-<p><b>3. Fiches établissements et self-service.</b> Les gérants peuvent créer un compte et souscrire un abonnement Premium pour compléter leur fiche (photos, tarifs, formulaire de devis, offre commerciale) sous leur responsabilité. Toute information inexacte ou trompeuse peut être retirée sans préavis. Les données officielles ne sont pas modifiables.</p>
-<p><b>4. Liens sponsorisés.</b> Certains liens, signalés par la mention « sponsorisé », rémunèrent le site. Ils ne modifient ni les classements ni les taux affichés.</p>
-<p><b>5. Propriété intellectuelle.</b> La structure du site, ses textes éditoriaux et ses agrégats statistiques sont réutilisables avec attribution (« source : placedupermis.fr »). Les données brutes restent sous Licence Ouverte 2.0 de leurs producteurs.</p>
-<p><b>6. Signalement.</b> Toute erreur peut être signalée à contact@placedupermis.fr ; les demandes légitimes de correction sont traitées sous 72 heures ouvrées.</p>
+<p><b>3. Fiches établissements et espace professionnel.</b> Toute auto-école agréée dispose par défaut d'une fiche « socle » construite à partir des seules données publiques. Le responsable légal d'un établissement peut créer un compte et souscrire un abonnement Espace Premium pour l'enrichir (photos, tarifs, horaires, formulaire de devis, offre commerciale), sous sa responsabilité. Les conditions de cette offre payante figurent dans les <a href="/cgv/">conditions générales de vente</a>. Toute information inexacte ou trompeuse peut être retirée sans préavis. Les données officielles ne sont modifiables ni par l'abonné ni par l'éditeur.</p>
+<p><b>4. Neutralité du classement.</b> Aucune option payante ne modifie le classement organique, les taux de réussite ni l'indice PlaceDuPermis. Une fiche Premium est signalée par une mention « Profil vérifié », jamais par un meilleur rang.</p>
+<p><b>5. Demandes de devis.</b> Le formulaire présent sur les fiches Premium transmet les coordonnées du visiteur directement à l'auto-école concernée, qui en devient responsable pour le recontacter. L'éditeur n'intervient pas dans la relation commerciale qui en découle et n'est partie à aucun contrat de formation.</p>
+<p><b>6. Liens sponsorisés.</b> Certains liens, signalés par la mention « sponsorisé », rémunèrent le site. Ils ne modifient ni les classements ni les taux affichés.</p>
+<p><b>7. Propriété intellectuelle.</b> La structure du site, ses textes éditoriaux et ses agrégats statistiques sont réutilisables avec attribution (« source : placedupermis.fr »). Les données brutes restent sous Licence Ouverte 2.0 de leurs producteurs.</p>
+<p><b>8. Signalement.</b> Toute erreur peut être signalée à <a href="mailto:contact@placedupermis.fr">contact@placedupermis.fr</a> ; les demandes légitimes de correction sont traitées sous 72 heures ouvrées.</p>
+<p class="sub" style="margin-top:18px">Page mise à jour le {TODAY_ISO}.</p>
+</div></div>""")
+
+    # /exemple-fiche-premium/ — vitrine de ce que donne une fiche enrichie.
+    # Données entièrement fictives (établissement inventé), noindex : c'est un support
+    # commercial, pas une fiche réelle, et il ne doit pas concurrencer les vraies pages.
+    demo_pub = {
+        "description": "Auto-école familiale à Annecy depuis 2016. Permis B, boîte automatique, moto A2 et conduite accompagnée, avec un suivi personnalisé de chaque élève.",
+        "long_description": "Fondée en 2016 par deux enseignants de la conduite, notre auto-école forme environ 180 candidats par an dans le bassin annécien.\nNous limitons volontairement le nombre d'élèves par moniteur pour garder des créneaux disponibles et un vrai suivi : chaque élève a un référent unique du code jusqu'à l'examen.\nNos véhicules sont renouvelés tous les trois ans et nous disposons d'un simulateur pour les premières heures.",
+        "quote_text": "Notre priorité, c'est un permis solide — pas un permis rapide. Un élève qui passe l'examen quand il est prêt, c'est un conducteur serein pour vingt ans.",
+        "manager_name": "Samuel Robineau",
+        "manager_role": "gérant fondateur",
+        "contact_phone": "04 50 12 34 56",
+        "contact_email": "contact@exemple-auto-ecole.fr",
+        "contact_website": "https://www.exemple-auto-ecole.fr",
+        "contact_whatsapp": "",
+        "prices": [
+            {"name": "Forfait Permis B — 20 h", "desc": "Code en ligne illimité + 20 h de conduite + présentation examen", "price_eur": "1190"},
+            {"name": "Forfait Permis B — 30 h", "desc": "Pour les débutants complets, le plus choisi", "price_eur": "1590"},
+            {"name": "Conduite accompagnée (AAC)", "desc": "Formation initiale 20 h + 2 rendez-vous pédagogiques", "price_eur": "1340"},
+            {"name": "Heure supplémentaire", "desc": "Au-delà du forfait, sans engagement", "price_eur": "52"},
+        ],
+        "hours": {"mon": "9h-12h · 14h-19h", "tue": "9h-12h · 14h-19h", "wed": "9h-12h · 14h-19h",
+                  "thu": "9h-12h · 14h-19h", "fri": "9h-12h · 14h-18h", "sat": "9h-12h", "sun": None},
+        "hours_note": "Parking gratuit devant l'école · arrêt de bus « Perrin » à 50 m · accueil sans rendez-vous le samedi matin.",
+        "specialties": ["permis_b", "bea", "moto_a2", "aac", "cs", "simulateur", "permis_1e", "cpf", "paiement_ech"],
+        "offer_title": "–100 € sur le forfait Permis B jusqu'au 30 septembre",
+        "offer_subtitle": "Code AAC offert · financement en 3× sans frais",
+        "offer_tag": "Rentrée 2026",
+        "offer_emoji": "🎁",
+        "offer_ends_at": "2026-09-30",
+        "photos": [],
+    }
+    _d_offer, _, _d_main = render_premium_all(demo_pub, fiche_id=None, fiche_name="Auto-École du Centre")
+    demo_body = f"""<section class="hero"><div class="wrap">
+<nav class="crumbs"><a href="/">Accueil</a> › <a href="/pro/">Espace auto-écoles</a> › Exemple de fiche Premium</nav>
+<div class="headrow"><h1>Auto-École du Centre — auto-école à Annecy</h1></div>
+<p class="sub">12 avenue des Marquisats, 74000 Annecy · agrément E0000000000 · référencée depuis 2016</p>
+<div class="badges"><span class="prem-verified">Profil vérifié</span><span class="t navy">Exemple — établissement fictif</span></div>
+{_d_offer}
+<div class="prem-hero-photo demo-photo"><span>Photo de l'établissement</span></div>
+</div></section>
+<div class="wrap">
+<div class="card" style="border-color:var(--blue);background:var(--blue-bg)">
+<div class="prose">
+<p style="margin:0"><b>📋 Ceci est un exemple.</b> « Auto-École du Centre » n'existe pas : cette page montre à quoi ressemble une fiche une fois l'Espace Premium activé — tarifs visibles, formulaire de devis, photos, offre commerciale, et surtout <b>plus aucun bloc renvoyant vers les auto-écoles concurrentes</b>. <a href="/pro/">Découvrir l'offre →</a></p>
+</div>
+</div>
+{_d_main}
+<div class="card lead-card">
+<h2>Demander un devis à Auto-École du Centre</h2>
+<p class="lead-sub">Votre demande arrive directement dans la boîte mail de l'auto-école. Réponse sous quelques jours ouvrés.</p>
+<div class="lead-row">
+<div><label>Votre nom *</label><input type="text" value="Marie Delacroix" disabled></div>
+<div><label>Votre email *</label><input type="text" value="marie.delacroix@exemple.fr" disabled></div>
+</div>
+<div class="lead-row">
+<div><label>Téléphone <span class="opt">(facultatif)</span></label><input type="text" value="06 12 34 56 78" disabled></div>
+<div><label>Votre demande <span class="opt">(facultatif)</span></label><input type="text" value="Permis B en conduite accompagnée, budget ~1400 €" disabled></div>
+</div>
+<button type="button" disabled>Envoyer ma demande</button>
+<p class="lead-legal">🔒 Formulaire désactivé sur cette page d'exemple. Sur une vraie fiche Premium, chaque demande part instantanément dans la boîte mail du gérant, avec le prospect en adresse de réponse — il suffit de cliquer « Répondre ».</p>
+</div>
+<div class="card"><h2>Et côté données officielles ?</h2><div class="prose">
+<p>Tout ce qui vient du registre RAFAEL reste affiché à l'identique sur une fiche Premium : taux de réussite au permis B, volume de candidats, historique depuis 2018, classement ville et département, indice PlaceDuPermis. <b>Ces éléments ne sont modifiables par personne</b> — c'est ce qui fait la crédibilité de votre fiche auprès des candidats.</p>
+<p>L'abonnement n'améliore jamais un classement. Il ajoute seulement les informations que vous seul pouvez fournir.</p>
+</div></div>
+<div class="card claim"><div><h2>Votre fiche peut ressembler à ça</h2>
+<p>Retrouvez votre auto-école, complétez-la tranquillement, prévisualisez le résultat — vous ne payez qu'au moment de publier.</p></div>
+<a href="/pro/connexion/">Créer mon espace</a></div>
+</div>"""
+    (DIST / "exemple-fiche-premium").mkdir(parents=True, exist_ok=True)
+    (DIST / "exemple-fiche-premium" / "index.html").write_text(page(
+        "Exemple de fiche Premium · placedupermis.fr",
+        "À quoi ressemble une fiche auto-école une fois l'Espace Premium activé : tarifs, photos, formulaire de devis, offre commerciale.",
+        f"{SITE}/exemple-fiche-premium/", demo_body, robots="noindex,follow"), encoding="utf-8")
+
+    static_page("cgv", "Conditions générales de vente — Espace Premium", "Conditions de l'offre",
+                "Les conditions de l'abonnement Espace Premium destiné aux auto-écoles.",
+                f"""<div class="card"><div class="prose">
+<p class="sub">Ces conditions régissent uniquement l'abonnement payant « Espace Premium » proposé aux auto-écoles. La consultation du comparateur est libre et gratuite et relève des <a href="/cgu/">conditions générales d'utilisation</a>.</p>
+
+<h2>1. Vendeur</h2>
+<p>Clair Raffour, entrepreneur individuel (micro-entreprise), SIREN 841&nbsp;584&nbsp;964, 36 rue Dombasle, 75015 Paris — <a href="mailto:contact@placedupermis.fr">contact@placedupermis.fr</a>. TVA non applicable, article 293 B du Code général des impôts.</p>
+
+<h2>2. Objet</h2>
+<p>L'Espace Premium permet au responsable légal d'une auto-école agréée de compléter la fiche publique de son établissement sur placedupermis.fr : tarifs, photographies, horaires, description, coordonnées, formulaire de demande de devis, bouton WhatsApp et bandeau d'offre commerciale. La souscription supprime également de cette fiche le bloc de suggestion d'établissements concurrents situés à proximité.</p>
+<p>L'abonnement porte sur <b>une fiche</b> (un numéro d'agrément préfectoral). Un même compte peut gérer plusieurs fiches, chacune faisant l'objet d'un abonnement distinct.</p>
+
+<h2>3. Prix</h2>
+<p>Tarif de lancement : <b>108 € par an et par fiche</b>, réservé aux 50 premières auto-écoles abonnées ou jusqu'au 31 décembre 2026 (premier terme atteint). Tarif standard ensuite : <b>228 € par an et par fiche</b>. Une formule mensuelle peut être proposée (12 € puis 25 € par mois).</p>
+<p>Les prix sont nets : <b>TVA non applicable</b> (article 293 B du CGI), aucun montant n'est à ajouter. Les auto-écoles ayant souscrit au tarif de lancement le conservent tant que leur abonnement reste actif sans interruption.</p>
+
+<h2>4. Commande et paiement</h2>
+<p>La souscription s'effectue en ligne depuis l'espace professionnel, après création d'un compte par lien de connexion envoyé par email. Le paiement est traité par <b>Stripe Payments Europe, Ltd.</b> ; aucune donnée de carte bancaire ne transite ni n'est conservée par l'éditeur. Une facture est adressée par email après chaque paiement et reste consultable depuis l'espace professionnel.</p>
+<p>La mise en ligne du contenu enrichi intervient après validation du paiement, dans un délai maximum de 24 heures (le site étant régénéré par lots).</p>
+
+<h2>5. Durée, reconduction et résiliation</h2>
+<p>L'abonnement court pour la période payée (un an, ou un mois selon la formule choisie) et se reconduit automatiquement à l'échéance, sauf résiliation.</p>
+<p>La résiliation s'effectue <b>en un clic depuis l'espace professionnel</b>, à tout moment et sans frais. Elle prend effet à l'échéance de la période en cours : l'accès et la publication sont maintenus jusqu'à cette date, aucun nouveau prélèvement n'est effectué ensuite. Aucun remboursement au prorata n'est dû pour la période déjà réglée.</p>
+<p>À l'expiration, la fiche revient à sa version socle gratuite (données officielles seules). Le contenu saisi est conservé pendant 6 mois et redevient immédiatement publiable en cas de réabonnement.</p>
+
+<h2>6. Droit de rétractation</h2>
+<p>L'abonnement est souscrit par un professionnel pour les besoins de son activité : le droit de rétractation du Code de la consommation n'a pas vocation à s'appliquer.</p>
+<p>Par exception, conformément à l'article L.&nbsp;221-3 du Code de la consommation, un professionnel employant <b>cinq salariés ou moins</b> et dont l'objet du contrat n'entre pas dans le champ de son activité principale dispose d'un délai de rétractation de <b>quatorze jours</b> à compter de la souscription. Pour l'exercer, il suffit d'écrire à <a href="mailto:contact@placedupermis.fr">contact@placedupermis.fr</a> ; le remboursement intervient sous quatorze jours par le moyen de paiement d'origine.</p>
+
+<h2>7. Obligations de l'abonné</h2>
+<p>L'abonné garantit être le responsable légal de l'établissement dont il complète la fiche, et détenir les droits sur les contenus qu'il publie (photographies notamment). Il s'engage à publier des informations exactes et à jour, en particulier ses tarifs.</p>
+<p>Sont notamment proscrits : les contenus mensongers ou trompeurs, les allégations de résultats non vérifiables, les contenus portant atteinte à un tiers ou à un établissement concurrent, et toute mention contraire à la réglementation applicable à l'enseignement de la conduite.</p>
+<p>En cas de manquement, ou de contestation légitime émanant du responsable réel de l'établissement, l'éditeur peut retirer le contenu litigieux et suspendre l'abonnement. En cas de suspension pour usurpation avérée, les sommes versées sont remboursées au prorata de la période restante.</p>
+
+<h2>8. Données officielles non modifiables</h2>
+<p>Le nom, l'adresse, le numéro d'agrément, les taux de réussite et les classements proviennent du registre national RAFAEL et ne sont modifiables ni par l'abonné ni par l'éditeur. L'abonnement ne modifie en aucun cas le classement organique, les taux affichés ni l'indice PlaceDuPermis. Une erreur dans ces données doit être signalée à l'administration compétente ; elle peut également nous être remontée pour correction à la source.</p>
+
+<h2>9. Disponibilité et responsabilité</h2>
+<p>L'éditeur met en œuvre les moyens raisonnables pour assurer l'accessibilité du service, sans garantie de disponibilité ininterrompue. Sa responsabilité ne saurait être engagée pour les conséquences indirectes d'une indisponibilité, ni pour l'absence de résultat commercial : aucun volume de visites, de contacts ou d'inscriptions n'est garanti.</p>
+<p>Une interruption du service imputable à l'éditeur et supérieure à sept jours consécutifs ouvre droit, sur demande, à une prolongation équivalente de l'abonnement.</p>
+
+<h2>10. Données personnelles</h2>
+<p>Les traitements liés au compte, à l'abonnement et aux demandes de devis sont décrits dans la <a href="/confidentialite/">politique de confidentialité</a>.</p>
+
+<h2>11. Réclamations, litiges et droit applicable</h2>
+<p>Toute réclamation peut être adressée à <a href="mailto:contact@placedupermis.fr">contact@placedupermis.fr</a> ; une réponse est apportée sous cinq jours ouvrés.</p>
+<p>Les présentes conditions sont soumises au droit français. À défaut de résolution amiable, le litige relève des juridictions compétentes dans les conditions du droit commun.</p>
+
+<h2>12. Modification des conditions</h2>
+<p>L'éditeur peut modifier les présentes conditions. Les abonnements en cours restent régis par la version acceptée lors de la souscription jusqu'à leur échéance ; toute modification tarifaire est notifiée par email au moins trente jours avant la reconduction, laissant le temps de résilier.</p>
+
+<p class="sub" style="margin-top:18px">Version en vigueur au {TODAY_ISO}.</p>
 </div></div>""")
 
     static_page("confidentialite", "Confidentialité", "Confidentialité",
-                "Ce que nous mesurons, et surtout ce que nous ne mesurons pas.",
-                """<div class="card"><div class="prose">
-<p>Pas de compte, pas de cookie publicitaire, pas de revente de données. La mesure d'audience utilise Umami (statistiques agrégées, sans cookie, données hébergées dans l'UE). Les liens sponsorisés sont signalés par la mention « sponsorisé » ; le partenaire peut déposer un cookie d'attribution si vous cliquez.</p>
+                "Quelles données nous traitons, pourquoi, combien de temps, et vos droits.",
+                f"""<div class="card"><div class="prose">
+<p class="sub">Responsable du traitement : Clair Raffour, entrepreneur individuel, 36 rue Dombasle, 75015 Paris — <a href="mailto:contact@placedupermis.fr">contact@placedupermis.fr</a>.</p>
+
+<h2>Visiteurs du comparateur</h2>
+<p>La consultation du site ne nécessite aucun compte. La mesure d'audience utilise <b>Umami</b> : statistiques agrégées, sans cookie et sans identifiant publicitaire, données hébergées dans l'Union européenne. Aucun profilage, aucune revente de données.</p>
+<p>Les liens sponsorisés sont signalés par la mention « sponsorisé » ; le partenaire concerné peut déposer un cookie d'attribution si vous cliquez sur un tel lien.</p>
+
+<h2>Auto-écoles abonnées</h2>
+<p>La création d'un compte professionnel entraîne le traitement des données suivantes :</p>
+<ul>
+<li><b>Identification</b> — adresse email de connexion (base légale : exécution du contrat).</li>
+<li><b>Contenu de fiche</b> — coordonnées, horaires, tarifs, textes et photographies que vous publiez volontairement, destinés à être rendus publics (exécution du contrat).</li>
+<li><b>Abonnement et facturation</b> — statut, échéances, montants, identifiants Stripe. Les données de carte bancaire ne nous parviennent jamais (obligation légale et exécution du contrat).</li>
+<li><b>Journal des modifications</b> — historique des champs modifiés, pour traçabilité et lutte contre l'usurpation (intérêt légitime).</li>
+</ul>
+<p><b>Durées :</b> compte et contenu conservés pendant la durée de l'abonnement puis 6 mois après son expiration, afin de permettre une réactivation sans ressaisie ; pièces comptables conservées 10 ans conformément à la loi.</p>
+
+<h2>Demandes de devis</h2>
+<p>Le formulaire présent sur les fiches Premium transmet vos nom, email, téléphone et message <b>à l'auto-école concernée</b>, qui devient responsable de leur usage pour vous recontacter. Une copie est conservée par l'éditeur pendant 12 mois à des fins de preuve, de support et de lutte contre les envois abusifs. Ces données ne sont ni revendues, ni utilisées à des fins de prospection par l'éditeur.</p>
+
+<h2>Sous-traitants</h2>
+<ul>
+<li><b>Netlify, Inc.</b> (États-Unis) — hébergement du site. Clauses contractuelles types.</li>
+<li><b>Supabase</b> (Union européenne) — base de données, authentification, stockage des photographies.</li>
+<li><b>Stripe Payments Europe, Ltd.</b> (Irlande) — traitement des paiements et facturation.</li>
+<li><b>Brevo</b> (France) — envoi des emails transactionnels.</li>
+<li><b>Umami</b> (Union européenne) — mesure d'audience agrégée.</li>
+</ul>
+
+<h2>Vos droits</h2>
+<p>Vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité sur vos données. Écrivez à <a href="mailto:contact@placedupermis.fr">contact@placedupermis.fr</a> : une réponse est apportée sous trente jours. Vous pouvez également introduire une réclamation auprès de la <a href="https://www.cnil.fr" rel="nofollow noopener" target="_blank">CNIL</a>.</p>
+<p>Précision : les données officielles issues du registre RAFAEL (nom, adresse, agrément, taux de réussite d'un établissement) sont des données publiques d'entreprise et non des données personnelles ; leur correction relève de l'administration qui les produit.</p>
+
+<p class="sub" style="margin-top:18px">Page mise à jour le {TODAY_ISO}.</p>
 </div></div>""")
 
     # go/ redirects (Netlify)

@@ -141,9 +141,10 @@ Chargement de votre compte…
 <p style="margin:0 0 8px;font-size:.9rem;line-height:1.55">
 <b>Fiche socle (gratuite, active par défaut)</b> — nom, adresse, taux de réussite officiels issus de RAFAEL. Affichée avec un bloc « à comparer à 25 km » qui met en avant vos voisines.
 </p>
-<p style="margin:0;font-size:.9rem;line-height:1.55">
+<p style="margin:0 0 12px;font-size:.9rem;line-height:1.55">
 <b>Fiche Premium (108 €/an)</b> — vos tarifs, photos, horaires, WhatsApp, offre commerciale, mot du gérant. Bloc « à comparer » retiré. Formulaire de demande de devis. C'est cette version qu'on active en cliquant sur « Publier ma fiche Premium ».
 </p>
+<a href="/exemple-fiche-premium/" target="_blank" style="color:var(--blue);font-weight:650;font-size:.87rem;text-decoration:none">👁 Voir un exemple de fiche Premium complète →</a>
 </div>
 
 <!-- PETITS TRUCS -->
@@ -169,7 +170,7 @@ Chargement de votre compte…
 
 <!-- FOOTER MINIMAL -->
 <footer style="margin-top:40px;padding:24px 0 20px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:.82rem">
-<div><a href="/" style="color:var(--muted);text-decoration:none">placedupermis.fr</a> · <a href="/mentions/" style="color:var(--muted);text-decoration:none">Mentions légales</a> · <a href="/confidentialite/" style="color:var(--muted);text-decoration:none">Confidentialité</a> · <a href="/cgu/" style="color:var(--muted);text-decoration:none">CGU</a> · <a href="mailto:contact@placedupermis.fr" style="color:var(--muted);text-decoration:none">contact@placedupermis.fr</a></div>
+<div><a href="/" style="color:var(--muted);text-decoration:none">placedupermis.fr</a> · <a href="/mentions/" style="color:var(--muted);text-decoration:none">Mentions légales</a> · <a href="/confidentialite/" style="color:var(--muted);text-decoration:none">Confidentialité</a> · <a href="/cgu/" style="color:var(--muted);text-decoration:none">CGU</a> · <a href="/cgv/" style="color:var(--muted);text-decoration:none">CGV</a> · <a href="mailto:contact@placedupermis.fr" style="color:var(--muted);text-decoration:none">contact@placedupermis.fr</a></div>
 </footer>
 
 </div>
@@ -241,16 +242,16 @@ if (!launchExhausted) {
   offerEl.innerHTML = `<div class="offer-card">
     <div class="oc-icon">🎯</div>
     <div class="oc-body">
-      <h3>Offre de lancement · <span class="stat">108 € HT / an</span></h3>
-      <p><b class="stat">${remaining}</b> places restantes sur ${maxSeats} · valable jusqu'au <b>${endsDate}</b> · ensuite le tarif standard passera à 228 € HT/an.</p>
+      <h3>Offre de lancement · <span class="stat">108 € / an</span></h3>
+      <p><b class="stat">${remaining}</b> places restantes sur ${maxSeats} · valable jusqu'au <b>${endsDate}</b> · ensuite le tarif standard passera à 228 €/an.<br><span style="opacity:.75">TVA non applicable, art. 293 B du CGI — le prix affiché est le prix payé.</span></p>
     </div>
   </div>`
 } else {
   offerEl.innerHTML = `<div class="offer-card standard">
     <div class="oc-icon">💼</div>
     <div class="oc-body">
-      <h3>Tarif standard · 228 € HT / an</h3>
-      <p>Engagement 1 an sans reconduction tacite. Résiliable à tout moment sans frais (l'accès reste actif jusqu'à échéance).</p>
+      <h3>Tarif standard · 228 € / an</h3>
+      <p>Résiliable à tout moment sans frais — l'accès reste actif jusqu'à l'échéance payée.<br><span style="opacity:.75">TVA non applicable, art. 293 B du CGI.</span></p>
     </div>
   </div>`
 }

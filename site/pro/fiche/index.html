@@ -52,6 +52,26 @@ body{background:var(--bg);min-height:100vh}
 h3.sec-title{font-size:1rem;margin:0 0 4px;color:var(--ink)}
 p.sec-desc{color:var(--muted);font-size:.83rem;margin:0 0 14px}
 
+/* Bloc pédagogique socle vs Premium */
+.explain{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:16px}
+.explain .ex-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.explain .ex-head h3{margin:0;font-size:1.05rem;color:var(--navy)}
+.explain .ex-example{color:var(--blue);font-size:.85rem;font-weight:650;text-decoration:none;white-space:nowrap}
+.explain .ex-example:hover{text-decoration:underline}
+.explain .ex-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:700px){.explain .ex-cols{grid-template-columns:1fr}}
+.explain .ex-col{border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:#fbfcfe}
+.explain .ex-col.hi{border-color:var(--volt);background:linear-gradient(180deg,#fcffe8,#f7fde0)}
+.explain .ex-tag{display:inline-block;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.explain .ex-tag.socle{background:#eef0f4;color:var(--ink2)}
+.explain .ex-tag.prem{background:var(--volt);color:var(--volt-ink)}
+.explain .ex-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
+.explain .ex-col li{padding-left:22px;position:relative;font-size:.86rem;line-height:1.5;color:var(--ink2)}
+.explain .ex-col li:before{content:"✓";position:absolute;left:0;top:0;color:#0d7a43;font-weight:800}
+.explain .ex-col li.ko{color:var(--muted)}
+.explain .ex-col li.ko:before{content:"✕";color:#c93636}
+.explain .ex-foot{margin:16px 0 0;padding:13px 16px;background:var(--blue-bg);border-radius:10px;font-size:.86rem;line-height:1.55;color:var(--ink2)}
+
 label{display:block;margin:12px 0 5px;font-weight:650;font-size:.85rem;color:var(--ink)}
 label .hint{color:var(--muted);font-weight:500;font-size:.78rem;margin-left:6px}
 input[type=text],input[type=email],input[type=tel],input[type=url],input[type=date],input[type=number],textarea{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;font-family:inherit;font-size:.92rem;color:var(--ink);background:#fff;transition:border .1s}
@@ -103,8 +123,9 @@ textarea{min-height:70px;resize:vertical;line-height:1.5}
 .pub-cta h3{margin:0 0 6px;font-size:1.15rem;color:#8a6100}
 .pub-cta.done h3{color:#0d7a43}
 .pub-cta p{color:var(--ink2);font-size:.9rem;margin:0 0 14px;max-width:540px;margin:0 auto 14px}
-.pub-cta .price-line{font-size:.85rem;color:var(--ink2);margin:8px 0 0}
+.pub-cta .price-line{font-size:.85rem;color:var(--ink2);margin:10px 0 0;line-height:1.6}
 .pub-cta .price-line b{color:var(--ink)}
+.pub-cta .pub-reassure{font-size:.78rem;color:var(--muted);margin:10px 0 0;line-height:1.5}
 .pub-cta .publish-btn{background:var(--navy);color:#fff;border:none;padding:14px 32px;border-radius:12px;font-weight:800;font-size:1rem;cursor:pointer;font-family:inherit}
 .pub-cta .publish-btn:hover{background:#1e3d84}
 .pub-cta.done .publish-btn{background:#0d7a43;cursor:default}
@@ -155,6 +176,35 @@ Chargement…
 <div style="margin-top:8px"><a href="#" target="_blank" id="viewPublic" style="color:var(--blue);font-size:.82rem;text-decoration:none;font-weight:650">Voir ma fiche publique →</a></div>
 </div>
 </div>
+</div>
+
+<!-- Bloc pédagogique : ce que change le Premium (masqué si déjà abonné) -->
+<div class="explain" id="explainBlock">
+<div class="ex-head">
+<h3>Ce que vous êtes en train de préparer</h3>
+<a href="/exemple-fiche-premium/" target="_blank" class="ex-example">👁 Voir un exemple de fiche complète →</a>
+</div>
+<div class="ex-cols">
+<div class="ex-col">
+<div class="ex-tag socle">Aujourd'hui · fiche socle</div>
+<ul>
+<li>Vos données officielles RAFAEL (taux de réussite, agrément, historique)</li>
+<li>Votre classement ville / département</li>
+<li class="ko">Aucun tarif, aucune photo, aucun contact direct</li>
+<li class="ko">Un bloc « à comparer à moins de 25 km » envoie vos visiteurs chez vos voisines</li>
+</ul>
+</div>
+<div class="ex-col hi">
+<div class="ex-tag prem">Après publication · fiche Premium</div>
+<ul>
+<li>Tout le socle, <b>plus le bloc concurrents supprimé</b></li>
+<li><b>Vos tarifs</b> — l'info que personne d'autre ne publie, celle que cherchent les candidats</li>
+<li><b>Formulaire de devis + WhatsApp</b> : les demandes arrivent dans votre boîte mail</li>
+<li>Photos, horaires, offre commerciale, mot du gérant</li>
+</ul>
+</div>
+</div>
+<p class="ex-foot">💡 <b>Remplissez d'abord, payez ensuite.</b> Tout ce que vous saisissez ci-dessous est sauvegardé automatiquement. Rien n'est visible du public tant que vous n'avez pas souscrit — et vous pouvez tout prévisualiser avant de décider.</p>
 </div>
 
 <div class="card">
@@ -252,16 +302,17 @@ Chargement…
 <!-- CTA final avec le prix -->
 <div class="pub-cta" id="pubCtaBottom">
 <h3 id="pubCtaH">🚀 Prêt à publier votre fiche ?</h3>
-<p id="pubCtaP">Toutes vos modifications ci-dessus seront publiées d'un coup dès validation du paiement.</p>
-<button class="publish-btn" id="publishBtnBottom">Publier ma fiche Premium</button>
+<p id="pubCtaP">Tout ce que vous venez de remplir sera mis en ligne d'un coup dès validation du paiement — et le bloc qui met vos concurrentes en avant disparaîtra de votre page.</p>
+<button class="publish-btn" id="publishBtnBottom">Souscrire et publier ma fiche Premium</button>
 <p class="price-line" id="pubCtaPrice"></p>
+<p class="pub-reassure" id="pubReassure">Paiement sécurisé par Stripe · Résiliable en 1 clic depuis votre espace · Vous recevez une facture par email</p>
 </div>
 
 </div>
 </div>
 
 <footer style="max-width:960px;margin:20px auto 0;padding:24px 20px 20px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:.82rem">
-<div><a href="/" style="color:var(--muted);text-decoration:none">placedupermis.fr</a> · <a href="/mentions/" style="color:var(--muted);text-decoration:none">Mentions légales</a> · <a href="/confidentialite/" style="color:var(--muted);text-decoration:none">Confidentialité</a> · <a href="/cgu/" style="color:var(--muted);text-decoration:none">CGU</a> · <a href="mailto:contact@placedupermis.fr" style="color:var(--muted);text-decoration:none">contact@placedupermis.fr</a></div>
+<div><a href="/" style="color:var(--muted);text-decoration:none">placedupermis.fr</a> · <a href="/mentions/" style="color:var(--muted);text-decoration:none">Mentions légales</a> · <a href="/confidentialite/" style="color:var(--muted);text-decoration:none">Confidentialité</a> · <a href="/cgu/" style="color:var(--muted);text-decoration:none">CGU</a> · <a href="/cgv/" style="color:var(--muted);text-decoration:none">CGV</a> · <a href="mailto:contact@placedupermis.fr" style="color:var(--muted);text-decoration:none">contact@placedupermis.fr</a></div>
 </footer>
 
 <div class="autosave" id="autosave"></div>
@@ -368,6 +419,9 @@ document.getElementById('draftBannerSub').textContent = isPremium
   ? 'Vos modifications sont publiées automatiquement.'
   : 'Remplissez tranquillement — rien n\'est publié tant que vous n\'avez pas payé.'
 
+// Le bloc pédagogique socle/Premium n'a plus lieu d'être une fois abonné
+if (isPremium) document.getElementById('explainBlock').classList.add('hidden')
+
 const publishTop = document.getElementById('publishBtnTop')
 publishTop.textContent = isPremium ? '✓ En ligne' : 'Publier ma fiche Premium'
 publishTop.disabled = isPremium
@@ -380,10 +434,11 @@ const pubBtn = document.getElementById('publishBtnBottom')
 if (isPremium) {
   pubCta.classList.add('done')
   document.getElementById('pubCtaH').textContent = '✅ Votre fiche est en ligne'
-  document.getElementById('pubCtaP').textContent = 'Abonnement actif' + (subs.current_period_end ? ` · échéance ${subs.current_period_end.slice(0, 10)}` : '') + '. Gérez votre abonnement depuis votre compte.'
+  document.getElementById('pubCtaP').textContent = 'Abonnement actif' + (subs.current_period_end ? ` · échéance ${subs.current_period_end.slice(0, 10)}` : '') + '. Vos modifications sont mises en ligne sous 24 h.'
   pubBtn.textContent = 'En ligne ✓'
   pubBtn.disabled = true
   document.getElementById('pubCtaPrice').innerHTML = '<a href="/pro/mon-espace/" style="color:var(--blue);text-decoration:none">Gérer mon abonnement →</a>'
+  document.getElementById('pubReassure').textContent = ''
 } else {
   // Défaut sûr : si launchInfo n'a pas pu être lu, on suppose early bird ouvert.
   const launchExhausted = launchInfo && (launchInfo.seats_taken >= launchInfo.seats_max || new Date(launchInfo.ends_at) < new Date())
@@ -391,9 +446,10 @@ if (isPremium) {
   const maxSeats = launchInfo ? launchInfo.seats_max : 50
   const endsIso = launchInfo ? launchInfo.ends_at : '2026-12-31'
   pubBtn.textContent = 'Publier ma fiche Premium'
-  document.getElementById('pubCtaPrice').innerHTML = !launchExhausted
-    ? `<b>108 € HT / an</b> — offre de lancement · ${remaining} places restantes sur ${maxSeats} · valable jusqu'au ${endsIso.slice(8,10)}/${endsIso.slice(5,7)}/${endsIso.slice(0,4)}`
-    : `<b>228 € HT / an</b> · engagement 1 an sans reconduction tacite`
+  document.getElementById('pubCtaPrice').innerHTML = (!launchExhausted
+    ? `<b>108 € / an</b> — offre de lancement · ${remaining} places restantes sur ${maxSeats} · valable jusqu'au ${endsIso.slice(8,10)}/${endsIso.slice(5,7)}/${endsIso.slice(0,4)}`
+    : `<b>228 € / an</b> · résiliable à tout moment`)
+    + `<br><span style="opacity:.7">TVA non applicable, art. 293 B du CGI — le prix affiché est le prix payé.</span>`
 }
 
 // ─── HORAIRES ───

@@ -145,6 +145,22 @@ create table if not exists public.changes_log (
 );
 create index if not exists idx_changes_fiche_time on public.changes_log(fiche_id, changed_at desc);
 
+-- Demandes de devis reçues via le formulaire des fiches Premium.
+-- Écrites par la fonction serverless send-lead (service role), jamais par le client.
+create table if not exists public.leads (
+  id uuid primary key default gen_random_uuid(),
+  fiche_id text not null references public.fiches(id) on delete cascade,
+  visitor_name text not null,
+  visitor_email text not null,
+  visitor_phone text,
+  message text,
+  sent_to text not null,         -- email du gérant destinataire au moment de l'envoi
+  delivered boolean not null default false,
+  created_at timestamptz not null default now(),
+  ip_hash text                   -- hash tronqué pour anti-abus, jamais l'IP en clair
+);
+create index if not exists idx_leads_fiche_time on public.leads(fiche_id, created_at desc);
+
 -- Compteur places early bird (une seule ligne)
 create table if not exists public.launch_counter (
   id boolean primary key default true check (id),  -- singleton
