@@ -50,6 +50,18 @@ export const handler = async (event) => {
   }
   if (diffs.length) await supabase.from('changes_log').insert(diffs)
 
+  // Si la fiche est actuellement Premium (abo actif + publication en cours),
+  // on met à jour publications.content en silencieux : les modifs seront prises
+  // au prochain rebuild (cron quotidien). Pas de rebuild déclenché ici — sinon
+  // chaque autosave (~1 par champ) déclencherait un build de 5-8 min.
+  const { data: activeSub } = await supabase.from('subscriptions')
+    .select('id').eq('fiche_id', fiche_id).eq('status', 'active').maybeSingle()
+  if (activeSub) {
+    await supabase.from('publications')
+      .update({ content: after })
+      .eq('fiche_id', fiche_id).eq('is_current', true)
+  }
+
   return {
     statusCode: 200,
     headers: { 'content-type': 'application/json' },
