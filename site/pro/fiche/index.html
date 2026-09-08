@@ -434,7 +434,7 @@ const pubBtn = document.getElementById('publishBtnBottom')
 if (isPremium) {
   pubCta.classList.add('done')
   document.getElementById('pubCtaH').textContent = '✅ Votre fiche est en ligne'
-  document.getElementById('pubCtaP').textContent = 'Abonnement actif' + (subs.current_period_end ? ` · échéance ${subs.current_period_end.slice(0, 10)}` : '') + '. Vos modifications sont mises en ligne sous 4 jours.'
+  document.getElementById('pubCtaP').textContent = 'Abonnement actif' + (subs.current_period_end ? ` · échéance ${subs.current_period_end.slice(0, 10)}` : '') + '. Vos modifications sont mises en ligne sous 72 h ouvrées.'
   pubBtn.textContent = 'En ligne ✓'
   pubBtn.disabled = true
   document.getElementById('pubCtaPrice').innerHTML = '<a href="/pro/mon-espace/" style="color:var(--blue);text-decoration:none">Gérer mon abonnement →</a>'
