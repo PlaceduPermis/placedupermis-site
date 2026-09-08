@@ -138,8 +138,10 @@ async function onSubDeleted(sub) {
     await supabase.from('publications').update({ is_current: false })
       .eq('fiche_id', subRow.fiche_id).eq('is_current', true)
   }
-  // Rebuild : la fiche redevient socle publiquement
-  await triggerRebuild(`sub deleted ${sub.id}`)
+  // Volontairement PAS de rebuild ici : un build coûte ~6 min de quota Netlify et
+  // rien ne presse pour retirer du contenu. La fiche redevient socle au prochain
+  // build programmé (lun/mer/ven) — l'ex-abonné garde sa page enrichie quelques
+  // jours de plus, ce qui n'est un problème pour personne.
 }
 
 async function onInvoicePaid(inv) {
